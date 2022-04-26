@@ -131,3 +131,6 @@ dist
 
 # mis files of docs
 ~$*.docx
+
+# .env files can be rebuilt from .env.example
+.env
