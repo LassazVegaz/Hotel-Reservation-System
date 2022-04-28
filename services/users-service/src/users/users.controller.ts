@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   NotFoundException,
   Param,
@@ -26,11 +27,7 @@ export class UsersController {
 
   @Get(':id')
   getUser(@Param('id') id: string): Promise<UserDTO> {
-    const user = this.usersService.getUser(parseInt(id));
-
-    if (!user) throw new NotFoundException(`User with ID ${id} not found`);
-
-    return user;
+    return this.usersService.getUser(parseInt(id));
   }
 
   @Patch(':id')
@@ -39,5 +36,10 @@ export class UsersController {
     @Body() user: UserUpdateDTO,
   ): Promise<UserDTO> {
     return this.usersService.updateUser(parseInt(id), user);
+  }
+
+  @Delete(':id')
+  async deleteUser(@Param('id') id: string): Promise<void> {
+    await this.usersService.deleteUser(parseInt(id));
   }
 }

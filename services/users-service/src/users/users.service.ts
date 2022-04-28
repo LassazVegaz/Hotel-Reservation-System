@@ -63,6 +63,18 @@ export class UsersService {
     return this.createUserDTO(updatedUser);
   }
 
+  async deleteUser(id: number): Promise<void> {
+    // check if user exists
+    if (!(await this.userExists(id)))
+      throw new NotFoundException(`User with ID ${id} not found`);
+
+    await this.prismaService.user.delete({
+      where: {
+        id,
+      },
+    });
+  }
+
   /**
    * Create user DTO without unnecessary fields
    */
