@@ -6,12 +6,15 @@ async function main() {
   await prisma.role.createMany({
     data: [
       {
+        id: 1,
         name: 'admin',
       },
       {
+        id: 2,
         name: 'customer',
       },
       {
+        id: 3,
         name: 'hotel-admin',
       },
     ],
