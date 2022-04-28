@@ -13,8 +13,12 @@ export class UsersService {
    * @returns Newly created user
    */
   async createUser(user: UserCreateDTO): Promise<User> {
-    return await this.prismaService.user.create({
+    const newUser = await this.prismaService.user.create({
       data: user,
     });
+
+    // send user without password
+    delete newUser.password;
+    return newUser;
   }
 }
