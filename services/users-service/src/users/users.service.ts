@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { User } from '@prisma/client';
 import { PrismaService } from 'src/shared/prisma.service';
-import { UserCreateDTO } from './users.models';
+import { UserCreateDTO, UserDTO } from './users.models';
 
 @Injectable()
 export class UsersService {
@@ -12,13 +12,31 @@ export class UsersService {
    * @param user without ID
    * @returns Newly created user
    */
-  async createUser(user: UserCreateDTO): Promise<User> {
+  async createUser(user: UserCreateDTO): Promise<UserDTO> {
     const newUser = await this.prismaService.user.create({
       data: user,
     });
 
-    // send user without password
-    delete newUser.password;
-    return newUser;
+    // send user DTO
+    return this.createUserDTO(newUser);
+  }
+
+  /**
+   * Get all users
+   * @returns All users
+   */
+  async getUsers(): Promise<UserDTO[]> {
+    const users = await this.prismaService.user.findMany();
+
+    // send user DTOs
+    return users.map((user) => this.createUserDTO(user));
+  }
+
+  /**
+   * Create user DTO without unnecessary fields
+   */
+  private createUserDTO(user: User): UserDTO {
+    const { password, ...userDTO } = user;
+    return userDTO;
   }
 }
