@@ -1,5 +1,13 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
-import { UserCreateDTO, UserDTO } from './users.models';
+import {
+  Body,
+  Controller,
+  Get,
+  NotFoundException,
+  Param,
+  Patch,
+  Post,
+} from '@nestjs/common';
+import { UserCreateDTO, UserDTO, UserUpdateDTO } from './users.models';
 import { UsersService } from './users.service';
 
 @Controller()
@@ -18,6 +26,18 @@ export class UsersController {
 
   @Get(':id')
   getUser(@Param('id') id: string): Promise<UserDTO> {
-    return this.usersService.getUser(parseInt(id));
+    const user = this.usersService.getUser(parseInt(id));
+
+    if (!user) throw new NotFoundException(`User with ID ${id} not found`);
+
+    return user;
+  }
+
+  @Patch(':id')
+  updateUser(
+    @Param('id') id: string,
+    @Body() user: UserUpdateDTO,
+  ): Promise<UserDTO> {
+    return this.usersService.updateUser(parseInt(id), user);
   }
 }
