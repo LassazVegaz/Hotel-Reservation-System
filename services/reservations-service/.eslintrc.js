@@ -25,5 +25,11 @@ module.exports = {
       'error',
       { ignoreRestSiblings: true },
     ],
+    'prettier/prettier': [
+      'error',
+      {
+        endOfLine: 'auto',
+      },
+    ],
   },
 };
