@@ -1,0 +1,13 @@
+{
+	"name": "run",
+	"version": "1.0.0",
+	"main": "run.js",
+	"type": "module",
+	"scripts": {
+		"start": "node run.js"
+	},
+	"dependencies": {
+		"minimist": "^1.2.6",
+		"open-term": "^2.0.4"
+	}
+}
