@@ -14,13 +14,35 @@
   <name>api-gatewayCompositeExporter</name>
   <description>api-gatewayCompositeExporter</description>
   <properties>
+    <com.example.endpoint_._hotelsEP>capp/EnterpriseServiceBus</com.example.endpoint_._hotelsEP>
+    <com.example.metadata_._hotelsAPI_swagger>capp/EnterpriseServiceBus</com.example.metadata_._hotelsAPI_swagger>
     <com.example.metadata_._usersAPI_swagger>capp/EnterpriseServiceBus</com.example.metadata_._usersAPI_swagger>
+    <com.example.api_._hotelsAPI>capp/EnterpriseServiceBus</com.example.api_._hotelsAPI>
     <com.example.metadata_._usersAPI_metadata>capp/EnterpriseServiceBus</com.example.metadata_._usersAPI_metadata>
     <com.example.api_._usersAPI>capp/EnterpriseServiceBus</com.example.api_._usersAPI>
     <artifact.types>jaggery/app=zip,synapse/priority-executor=xml,synapse/inbound-endpoint=xml,service/rule=aar,synapse/message-store=xml,event/stream=json,service/meta=xml,datasource/datasource=xml,synapse/proxy-service=xml,bpel/workflow=zip,synapse/sequence=xml,synapse/endpointTemplate=xml,carbon/application=car,wso2/gadget=dar,synapse/api=xml,synapse/event-source=xml,synapse/message-processors=xml,event/receiver=xml,lib/dataservice/validator=jar,synapse/template=xml,synapse/endpoint=xml,lib/carbon/ui=jar,lib/synapse/mediator=jar,synapse/metadata=yaml,event/publisher=xml,synapse/local-entry=xml,synapse/task=xml,webapp/jaxws=war,registry/resource=zip,synapse/configuration=xml,service/axis2=aar,synapse/lib=zip,synapse/sequenceTemplate=xml,event/execution-plan=siddhiql,service/dataservice=dbs,web/application=war,lib/library/bundle=jar</artifact.types>
+    <com.example.metadata_._hotelsAPI_metadata>capp/EnterpriseServiceBus</com.example.metadata_._hotelsAPI_metadata>
     <com.example.endpoint_._UsersEP>capp/EnterpriseServiceBus</com.example.endpoint_._UsersEP>
   </properties>
   <dependencies>
+    <dependency>
+      <groupId>com.example.metadata</groupId>
+      <artifactId>hotelsAPI_metadata</artifactId>
+      <version>1.0.0</version>
+      <type>yaml</type>
+    </dependency>
+    <dependency>
+      <groupId>com.example.metadata</groupId>
+      <artifactId>hotelsAPI_swagger</artifactId>
+      <version>1.0.0</version>
+      <type>yaml</type>
+    </dependency>
+    <dependency>
+      <groupId>com.example.api</groupId>
+      <artifactId>hotelsAPI</artifactId>
+      <version>1.0.0</version>
+      <type>xml</type>
+    </dependency>
     <dependency>
       <groupId>com.example.metadata</groupId>
       <artifactId>usersAPI_metadata</artifactId>
@@ -42,6 +64,12 @@
     <dependency>
       <groupId>com.example.endpoint</groupId>
       <artifactId>UsersEP</artifactId>
+      <version>1.0.0</version>
+      <type>xml</type>
+    </dependency>
+    <dependency>
+      <groupId>com.example.endpoint</groupId>
+      <artifactId>hotelsEP</artifactId>
       <version>1.0.0</version>
       <type>xml</type>
     </dependency>
