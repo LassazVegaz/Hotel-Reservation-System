@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<api context="/hotels" name="hotelsAPI" xmlns="http://ws.apache.org/ns/synapse">
+    <resource methods="DELETE POST PATCH GET">
+        <inSequence>
+            <log>
+                <property name="message" value="accessing hotels API"/>
+            </log>
+            <send>
+                <endpoint key="hotelsEP"/>
+            </send>
+        </inSequence>
+        <outSequence>
+            <send/>
+        </outSequence>
+        <faultSequence/>
+    </resource>
+</api>
