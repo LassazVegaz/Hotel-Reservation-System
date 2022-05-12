@@ -13,31 +13,35 @@ const pages = ["Home", "About", "Contact"];
 
 export const Header = () => {
 	return (
-		<AppBar>
-			<Container maxWidth="xl">
-				<Toolbar disableGutters>
-					<Typography variant="h5">HRS</Typography>
+		<>
+			<AppBar>
+				<Container maxWidth="xl">
+					<Toolbar disableGutters>
+						<Typography variant="h5">HRS</Typography>
 
-					<Box flexGrow={1} ml={5}>
-						{pages.map((page, index) => (
-							<Button
-								sx={{
-									color: "white",
-								}}
-								key={index}
-							>
-								{page}
-							</Button>
-						))}
-					</Box>
+						<Box flexGrow={1} ml={5}>
+							{pages.map((page, index) => (
+								<Button
+									sx={{
+										color: "white",
+									}}
+									key={index}
+								>
+									{page}
+								</Button>
+							))}
+						</Box>
 
-					<Box>
-						<IconButton>
-							<Avatar />
-						</IconButton>
-					</Box>
-				</Toolbar>
-			</Container>
-		</AppBar>
+						<Box>
+							<IconButton>
+								<Avatar />
+							</IconButton>
+						</Box>
+					</Toolbar>
+				</Container>
+			</AppBar>
+
+			<Toolbar />
+		</>
 	);
 };
