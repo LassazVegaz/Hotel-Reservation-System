@@ -7,6 +7,8 @@ import {
 	ListItemText,
 	Typography,
 } from "@mui/material";
+import { useState } from "react";
+import { AddEditReservationDialog } from "../../components/AddEditReservationDialog/AddEditReservationDialog";
 
 const ReservationsList = () => {
 	return (
@@ -25,21 +27,31 @@ const ReservationsList = () => {
 };
 
 export const HotelReservations = () => {
+	const [openDialog, setOpenDialog] = useState(false);
+
 	return (
-		<Box mt={10} position="relative">
-			<Typography variant="h4">Reservations of this Hotel</Typography>
+		<>
+			<Box mt={10} position="relative">
+				<Typography variant="h4">Reservations of this Hotel</Typography>
 
-			<ReservationsList />
+				<ReservationsList />
 
-			<Fab
-				sx={{
-					position: "absolute",
-					right: 0,
-					bottom: 0,
-				}}
-			>
-				<AddIcon />
-			</Fab>
-		</Box>
+				<Fab
+					sx={{
+						position: "absolute",
+						right: 0,
+						bottom: 0,
+					}}
+					onClick={() => setOpenDialog(true)}
+				>
+					<AddIcon />
+				</Fab>
+			</Box>
+
+			<AddEditReservationDialog
+				open={openDialog}
+				onClose={() => setOpenDialog(false)}
+			/>
+		</>
 	);
 };
