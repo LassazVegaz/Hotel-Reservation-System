@@ -1,5 +1,7 @@
+import { Add as AddIcon } from "@mui/icons-material";
 import {
 	Container,
+	Fab,
 	List,
 	ListItemButton,
 	ListItemText,
@@ -26,6 +28,7 @@ export const HotelsListPage = () => {
 	return (
 		<Container
 			sx={{
+				position: "relative",
 				my: 3,
 			}}
 		>
@@ -34,6 +37,16 @@ export const HotelsListPage = () => {
 			</Typography>
 
 			<HotelsList />
+
+			<Fab
+				sx={{
+					right: 0,
+					bottom: 0,
+					position: "absolute",
+				}}
+			>
+				<AddIcon />
+			</Fab>
 		</Container>
 	);
 };
