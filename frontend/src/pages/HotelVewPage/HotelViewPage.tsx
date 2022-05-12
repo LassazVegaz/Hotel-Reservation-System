@@ -1,4 +1,5 @@
 import { Container } from "@mui/material";
+import { HotelReservations } from "./HotelReservations";
 import { HotelView } from "./HotelView";
 
 export const HotelViewPage = () => {
@@ -9,6 +10,8 @@ export const HotelViewPage = () => {
 			}}
 		>
 			<HotelView />
+
+			<HotelReservations />
 		</Container>
 	);
 };
