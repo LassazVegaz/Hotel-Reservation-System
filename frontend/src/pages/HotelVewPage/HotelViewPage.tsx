@@ -1,6 +1,6 @@
 import { Container } from "@mui/material";
+import { HotelDetailsCard } from "../../components/HotelDetailsCard/HotelDetailsCard";
 import { HotelReservations } from "./HotelReservations";
-import { HotelView } from "./HotelView";
 
 export const HotelViewPage = () => {
 	return (
@@ -9,7 +9,7 @@ export const HotelViewPage = () => {
 				my: 10,
 			}}
 		>
-			<HotelView />
+			<HotelDetailsCard />
 
 			<HotelReservations />
 		</Container>
