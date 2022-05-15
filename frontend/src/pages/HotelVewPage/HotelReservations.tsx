@@ -9,21 +9,26 @@ export const HotelReservations = () => {
 
 	return (
 		<>
-			<Box mt={10} position="relative">
-				<Typography variant="h4">Reservations of this Hotel</Typography>
+			<Box mt={10}>
+				<Typography
+					variant="h4"
+					position="relative"
+					display="flex"
+					alignItems="center"
+				>
+					Reservations of this Hotel
+					<Fab
+						sx={{
+							position: "absolute",
+							right: 0,
+						}}
+						onClick={() => setOpenDialog(true)}
+					>
+						<AddIcon />
+					</Fab>
+				</Typography>
 
 				<ReservationsList />
-
-				<Fab
-					sx={{
-						position: "absolute",
-						right: 0,
-						bottom: 0,
-					}}
-					onClick={() => setOpenDialog(true)}
-				>
-					<AddIcon />
-				</Fab>
 			</Box>
 
 			<AddEditReservationDialog
