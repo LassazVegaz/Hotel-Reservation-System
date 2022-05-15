@@ -1,47 +1,8 @@
-import {
-	Add as AddIcon,
-	BedroomChild as BedroomChildIcon,
-} from "@mui/icons-material";
-import {
-	Avatar,
-	Box,
-	Button,
-	Fab,
-	List,
-	ListItemAvatar,
-	ListItemButton,
-	ListItemSecondaryAction,
-	ListItemText,
-	Typography,
-} from "@mui/material";
+import { Add as AddIcon } from "@mui/icons-material";
+import { Box, Fab, Typography } from "@mui/material";
 import { useState } from "react";
 import { AddEditReservationDialog } from "../../components/AddEditReservationDialog/AddEditReservationDialog";
-
-const ReservationItem = () => {
-	return (
-		<ListItemButton>
-			<ListItemAvatar>
-				<Avatar>
-					<BedroomChildIcon />
-				</Avatar>
-			</ListItemAvatar>
-			<ListItemText primary="Reservation 1" secondary="500.00" />
-			<ListItemSecondaryAction>
-				<Button variant="outlined">BOOK</Button>
-			</ListItemSecondaryAction>
-		</ListItemButton>
-	);
-};
-
-const ReservationsList = () => {
-	return (
-		<List>
-			<ReservationItem />
-			<ReservationItem />
-			<ReservationItem />
-		</List>
-	);
-};
+import { ReservationsList } from "./ReservationsList";
 
 export const HotelReservations = () => {
 	const [openDialog, setOpenDialog] = useState(false);
