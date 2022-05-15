@@ -1,27 +1,44 @@
-import { Add as AddIcon } from "@mui/icons-material";
 import {
+	Add as AddIcon,
+	BedroomChild as BedroomChildIcon,
+} from "@mui/icons-material";
+import {
+	Avatar,
 	Box,
+	Button,
 	Fab,
 	List,
+	ListItemAvatar,
 	ListItemButton,
+	ListItemSecondaryAction,
 	ListItemText,
 	Typography,
 } from "@mui/material";
 import { useState } from "react";
 import { AddEditReservationDialog } from "../../components/AddEditReservationDialog/AddEditReservationDialog";
 
+const ReservationItem = () => {
+	return (
+		<ListItemButton>
+			<ListItemAvatar>
+				<Avatar>
+					<BedroomChildIcon />
+				</Avatar>
+			</ListItemAvatar>
+			<ListItemText primary="Reservation 1" secondary="500.00" />
+			<ListItemSecondaryAction>
+				<Button variant="outlined">BOOK</Button>
+			</ListItemSecondaryAction>
+		</ListItemButton>
+	);
+};
+
 const ReservationsList = () => {
 	return (
 		<List>
-			<ListItemButton>
-				<ListItemText primary="Reservation 1" secondary="500.00" />
-			</ListItemButton>
-			<ListItemButton>
-				<ListItemText primary="Reservation 1" secondary="500.00" />
-			</ListItemButton>
-			<ListItemButton>
-				<ListItemText primary="Reservation 1" secondary="500.00" />
-			</ListItemButton>
+			<ReservationItem />
+			<ReservationItem />
+			<ReservationItem />
 		</List>
 	);
 };
