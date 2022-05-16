@@ -2,6 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import { Footer } from "./components/Footer/Footer";
 import { Header } from "./components/Header/Header";
 import { Loader } from "./components/Loader/Loader";
+import { Notification } from "./components/Notification/Notification";
 import { useAppSelector } from "./hooks/redux.hooks";
 import { CreateAccountPage } from "./pages/CreateAccountPage/CreateAccountPage";
 
@@ -11,6 +12,8 @@ function App() {
 	return (
 		<>
 			<Header />
+
+			<Notification />
 
 			<Routes>
 				<Route path="/" element={<CreateAccountPage />} />
