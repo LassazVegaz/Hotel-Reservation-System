@@ -6,10 +6,13 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import { Hotel } from '@prisma/client';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { HotelsService } from './hotels.service';
 
+@UseGuards(JwtAuthGuard)
 @Controller()
 export class HotelsController {
   constructor(private readonly hotelsService: HotelsService) {}
