@@ -6,7 +6,9 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { UserCreateDTO, UserDTO, UserUpdateDTO } from './users.models';
 import { UsersService } from './users.service';
 
@@ -27,6 +29,7 @@ export class UsersController {
     return this.usersService.createUser(createDto);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get()
   getUsers(): Promise<UserDTO[]> {
     return this.usersService.getUsers();
