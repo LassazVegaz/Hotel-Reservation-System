@@ -4,10 +4,13 @@ import { UserRole } from "../../enums/user-role.enum";
 import { User } from "../../types/user.type";
 import * as yup from "yup";
 import { FormikMUITextField } from "../../components/FormikMUITextField/FormikMUITextField";
+import { apiHelpers } from "../../helpers/api.helpers";
+import { useUsersApi } from "../../hooks/users-api-calls.hook";
 
-type CreateAccountFormValues = Partial<
-	Omit<User, "id"> & { password: string; confirmPassword: string }
->;
+type CreateAccountFormValues = Omit<User, "id"> & {
+	password: string;
+	confirmPassword: string;
+};
 
 const validationSchema = yup.object({
 	name: yup.string().required("Name is required"),
@@ -21,6 +24,8 @@ const validationSchema = yup.object({
 });
 
 export const CreateAcountForm = () => {
+	const { createUser } = useUsersApi();
+
 	const initialValues: CreateAccountFormValues = {
 		name: "",
 		email: "",
@@ -33,7 +38,13 @@ export const CreateAcountForm = () => {
 	const form = useFormik({
 		initialValues,
 		validationSchema,
-		onSubmit: (values) => {},
+		onSubmit: (values) => {
+			const newUser: User = {
+				...values,
+				id: 0,
+			};
+			createUser(newUser);
+		},
 	});
 
 	const handleRoleChange = (

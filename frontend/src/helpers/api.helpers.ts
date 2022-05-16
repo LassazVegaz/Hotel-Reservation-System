@@ -15,6 +15,7 @@ const createUser = async (user: User) => {
 		return res.data;
 	} catch (error) {
 		console.error(error);
+		throw error;
 	}
 };
 
