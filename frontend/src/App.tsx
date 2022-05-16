@@ -1,13 +1,13 @@
 import { Footer } from "./components/Footer/Footer";
 import { Header } from "./components/Header/Header";
-import { BookingPage } from "./pages/BookingPage/BookingPage";
+import { MyBookingsPage } from "./pages/MyBookingsPage/MyBookingsPage";
 
 function App() {
 	return (
 		<div>
 			<Header />
 
-			<BookingPage />
+			<MyBookingsPage />
 
 			<Footer />
 		</div>
