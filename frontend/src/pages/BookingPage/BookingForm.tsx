@@ -7,10 +7,12 @@ import {
 	Typography,
 	CardActions,
 	Button,
+	Checkbox,
 } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
 import moment from "moment";
 import { useState } from "react";
+import { ValueLabelPair } from "../../types/value-label-pair.type";
 import { BookingFormCalculations } from "./BookingFormCalculations";
 
 type BookingFormState = {
@@ -21,6 +23,15 @@ type BookingFormState = {
 const DateControl = styled(TextField)({
 	width: "100%",
 });
+
+const CheckboxRow = ({ label, value }: ValueLabelPair<boolean>) => {
+	return (
+		<Box display="flex" alignItems="center">
+			<Typography width={300}>{label}</Typography>
+			<Checkbox checked={value} />
+		</Box>
+	);
+};
 
 export const BookingForm = () => {
 	const [from, setFrom] = useState<BookingFormState>({
@@ -58,6 +69,11 @@ export const BookingForm = () => {
 							}
 							renderInput={(props) => <DateControl {...props} />}
 						/>
+					</Box>
+
+					<Box mb={5} display="flex" flexDirection="column">
+						<CheckboxRow label="Taxi service" value={true} />
+						<CheckboxRow label="Cash on delivery" value={true} />
 					</Box>
 
 					<BookingFormCalculations />
