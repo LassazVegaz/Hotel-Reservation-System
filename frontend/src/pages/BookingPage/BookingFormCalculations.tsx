@@ -1,11 +1,7 @@
 import { Box, Typography } from "@mui/material";
+import { ValueLabelPair } from "../../types/value-label-pair.type";
 
-type DetailRowProps = {
-	label: string;
-	value: string;
-};
-
-const DetailRow = ({ label, value }: DetailRowProps) => {
+const DetailRow = ({ label, value }: ValueLabelPair<string>) => {
 	return (
 		<Box display="flex">
 			<Typography width={200}>{label}:</Typography>
