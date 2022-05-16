@@ -2,4 +2,4 @@
 
 Backend - NestJS
 
-Frontend - Angular
+Frontend - React
