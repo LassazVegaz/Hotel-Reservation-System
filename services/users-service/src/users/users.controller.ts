@@ -3,7 +3,6 @@ import {
   Controller,
   Delete,
   Get,
-  NotFoundException,
   Param,
   Patch,
   Post,
@@ -17,7 +16,15 @@ export class UsersController {
 
   @Post()
   createUser(@Body() user: UserCreateDTO): Promise<UserDTO> {
-    return this.usersService.createUser(user);
+    // remapping is needed
+    const createDto: UserCreateDTO = {
+      email: user.email,
+      password: user.password,
+      roleId: user.roleId,
+      name: user.name,
+      number: user.number,
+    };
+    return this.usersService.createUser(createDto);
   }
 
   @Get()
@@ -35,7 +42,12 @@ export class UsersController {
     @Param('id') id: string,
     @Body() user: UserUpdateDTO,
   ): Promise<UserDTO> {
-    return this.usersService.updateUser(parseInt(id), user);
+    const updateDto: UserUpdateDTO = {
+      name: user.name,
+      number: user.number,
+      email: user.email,
+    };
+    return this.usersService.updateUser(parseInt(id), updateDto);
   }
 
   @Delete(':id')
