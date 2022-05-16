@@ -35,11 +35,13 @@ export class UsersController {
     return this.usersService.getUsers();
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get(':id')
   getUser(@Param('id') id: string): Promise<UserDTO> {
     return this.usersService.getUser(parseInt(id));
   }
 
+  @UseGuards(JwtAuthGuard)
   @Patch(':id')
   updateUser(
     @Param('id') id: string,
@@ -53,6 +55,7 @@ export class UsersController {
     return this.usersService.updateUser(parseInt(id), updateDto);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Delete(':id')
   async deleteUser(@Param('id') id: string): Promise<void> {
     await this.usersService.deleteUser(parseInt(id));
