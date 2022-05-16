@@ -4,6 +4,7 @@ import App from "./App";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import "./index.scss";
+import { BrowserRouter } from "react-router-dom";
 
 const root = ReactDOM.createRoot(
 	document.getElementById("root") as HTMLElement
@@ -11,7 +12,9 @@ const root = ReactDOM.createRoot(
 root.render(
 	<React.StrictMode>
 		<LocalizationProvider dateAdapter={AdapterMoment}>
-			<App />
+			<BrowserRouter>
+				<App />
+			</BrowserRouter>
 		</LocalizationProvider>
 	</React.StrictMode>
 );
