@@ -1,16 +1,28 @@
+import { Route, Routes } from "react-router-dom";
 import { Footer } from "./components/Footer/Footer";
 import { Header } from "./components/Header/Header";
-import { MyBookingsPage } from "./pages/MyBookingsPage/MyBookingsPage";
+import { Loader } from "./components/Loader/Loader";
+import { Notification } from "./components/Notification/Notification";
+import { useAppSelector } from "./hooks/redux.hooks";
+import { CreateAccountPage } from "./pages/CreateAccountPage/CreateAccountPage";
 
 function App() {
+	const isLoading = useAppSelector((s) => s.loader.isLoading);
+
 	return (
-		<div>
+		<>
 			<Header />
 
-			<MyBookingsPage />
+			<Notification />
+
+			<Routes>
+				<Route path="/" element={<CreateAccountPage />} />
+			</Routes>
 
 			<Footer />
-		</div>
+
+			<Loader show={isLoading} />
+		</>
 	);
 }
 

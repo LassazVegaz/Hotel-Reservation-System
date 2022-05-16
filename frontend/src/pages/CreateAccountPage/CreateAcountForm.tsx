@@ -1,47 +1,117 @@
-import {
-	Button,
-	Box,
-	TextField,
-	ToggleButton,
-	ToggleButtonGroup,
-} from "@mui/material";
-import { Formik } from "formik";
+import { Button, Box, ToggleButton, ToggleButtonGroup } from "@mui/material";
+import { useFormik } from "formik";
+import { UserRole } from "../../enums/user-role.enum";
+import { User } from "../../types/user.type";
+import * as yup from "yup";
+import { FormikMUITextField } from "../../components/FormikMUITextField/FormikMUITextField";
+import { apiHelpers } from "../../helpers/api.helpers";
+import { useUsersApi } from "../../hooks/users-api-calls.hook";
+
+type CreateAccountFormValues = Omit<User, "id"> & {
+	password: string;
+	confirmPassword: string;
+};
+
+const validationSchema = yup.object({
+	name: yup.string().required("Name is required"),
+	email: yup.string().email("Invalid email").required("Email is required"),
+	password: yup.string().required("Password is required"),
+	confirmPassword: yup
+		.string()
+		.required("Confirm password is required")
+		.oneOf([yup.ref("password")], "Passwords must match"),
+	number: yup.string().required("Number is required"),
+});
 
 export const CreateAcountForm = () => {
+	const { createUser } = useUsersApi();
+
+	const initialValues: CreateAccountFormValues = {
+		name: "",
+		email: "",
+		password: "",
+		confirmPassword: "",
+		number: "",
+		roleId: UserRole.Customer,
+	};
+
+	const form = useFormik({
+		initialValues,
+		validationSchema,
+		onSubmit: (values) => {
+			const newUser: User = {
+				...values,
+				id: 0,
+			};
+			createUser(newUser);
+		},
+	});
+
+	const handleRoleChange = (
+		_event: React.MouseEvent<HTMLElement, MouseEvent>,
+		value: any
+	) => {
+		form.setFieldValue("roleId", value);
+	};
+
 	return (
-		<Formik
-			initialValues={{}}
-			onSubmit={() => {
-				console.log("creating");
-			}}
+		<Box
+			component="form"
+			display="flex"
+			flexDirection="column"
+			rowGap={3}
+			onSubmit={form.handleSubmit}
 		>
-			<Box
-				component="form"
-				display="flex"
-				flexDirection="column"
-				rowGap={3}
+			<FormikMUITextField label="Name" name="name" form={form} />
+			<FormikMUITextField
+				label="Mobile number"
+				name="number"
+				type="tel"
+				form={form}
+			/>
+			<FormikMUITextField
+				label="Email"
+				name="email"
+				type="email"
+				form={form}
+			/>
+			<FormikMUITextField
+				label="Password"
+				name="password"
+				type="password"
+				form={form}
+			/>
+			<FormikMUITextField
+				label="Confirm passowrd"
+				name="confirmPassword"
+				type="password"
+				form={form}
+			/>
+
+			<ToggleButtonGroup
+				value={form.values.roleId}
+				exclusive
+				fullWidth
+				onChange={handleRoleChange}
 			>
-				<TextField label="Name" />
-				<TextField label="Mobile number" type="tel" />
-				<TextField label="Email" type="email" />
-				<TextField label="Password" type="password" />
-				<TextField label="Confirm passowrd" type="password" />
+				<ToggleButton name="roleId" value={UserRole.Customer}>
+					Traveler
+				</ToggleButton>
+				<ToggleButton name="roleId" value={UserRole.HotelAdmin}>
+					Hotel Admin
+				</ToggleButton>
+			</ToggleButtonGroup>
 
-				<ToggleButtonGroup exclusive fullWidth>
-					<ToggleButton value="traveler">Traveler</ToggleButton>
-					<ToggleButton value="hotel-admin">Hotel Admin</ToggleButton>
-				</ToggleButtonGroup>
-
-				<Button
-					variant="contained"
-					sx={{
-						mt: 3,
-					}}
-				>
-					Sign Up
-				</Button>
-				<Button variant="contained">Sign In</Button>
-			</Box>
-		</Formik>
+			<Button
+				variant="contained"
+				sx={{
+					mt: 3,
+				}}
+				type="submit"
+			>
+				Sign Up
+			</Button>
+			<Button variant="contained">Sign In</Button>
+		</Box>
 	);
 };

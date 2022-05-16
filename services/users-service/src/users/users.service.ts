@@ -46,6 +46,29 @@ export class UsersService {
     return this.createUserDTO(user);
   }
 
+  async getUserByEmail(email: string): Promise<UserDTO> {
+    const user = await this.prismaService.user.findUnique({
+      where: {
+        email,
+      },
+    });
+
+    // send user DTO
+    return this.createUserDTO(user);
+  }
+
+  async getPassword(id: number): Promise<string> {
+    const user = await this.prismaService.user.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    if (!user) throw new NotFoundException(`User with ID ${id} not found`);
+
+    return user.password;
+  }
+
   /**
    * Update user
    */
