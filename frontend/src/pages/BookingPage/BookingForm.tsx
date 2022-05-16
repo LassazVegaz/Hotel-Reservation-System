@@ -11,6 +11,7 @@ import {
 import { DatePicker } from "@mui/x-date-pickers";
 import moment from "moment";
 import { useState } from "react";
+import { BookingFormCalculations } from "./BookingFormCalculations";
 
 type BookingFormState = {
 	fromDate: moment.Moment | null;
@@ -32,6 +33,7 @@ export const BookingForm = () => {
 			<Card>
 				<CardContent>
 					<Box
+						mb={5}
 						display="flex"
 						justifyContent="space-evenly"
 						columnGap={5}
@@ -58,12 +60,7 @@ export const BookingForm = () => {
 						/>
 					</Box>
 
-					<Box mt={5} display="flex">
-						<Typography>Price:</Typography>
-						<Typography ml={3} fontWeight="bold">
-							500.00
-						</Typography>
-					</Box>
+					<BookingFormCalculations />
 				</CardContent>
 
 				<CardActions
