@@ -5,7 +5,7 @@ import { useAppDispatch } from "./redux.hooks";
 export const useApi = () => {
 	const dispatch = useAppDispatch();
 
-	return async (cb: () => Promise<void>) => {
+	return async (cb: () => Promise<void>, throwEx = false) => {
 		try {
 			dispatch(loaderActions.startLoading());
 			await cb();
@@ -16,12 +16,14 @@ export const useApi = () => {
 				})
 			);
 		} catch (error) {
-			dispatch(
-				notificationActions.showNotification({
-					message: "Failed",
-					type: "error",
-				})
-			);
+			if (throwEx) throw error;
+			else
+				dispatch(
+					notificationActions.showNotification({
+						message: "Failed",
+						type: "error",
+					})
+				);
 		} finally {
 			dispatch(loaderActions.stopLoading());
 		}
