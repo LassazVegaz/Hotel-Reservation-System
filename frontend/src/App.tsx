@@ -5,6 +5,7 @@ import { Loader } from "./components/Loader/Loader";
 import { Notification } from "./components/Notification/Notification";
 import { useAppSelector } from "./hooks/redux.hooks";
 import { CreateAccountPage } from "./pages/CreateAccountPage/CreateAccountPage";
+import { LoginPage } from "./pages/LoginPage/LoginPage";
 
 function App() {
 	const isLoading = useAppSelector((s) => s.loader.isLoading);
@@ -17,6 +18,7 @@ function App() {
 
 			<Routes>
 				<Route path="/" element={<CreateAccountPage />} />
+				<Route path="/login" element={<LoginPage />} />
 			</Routes>
 
 			<Footer />

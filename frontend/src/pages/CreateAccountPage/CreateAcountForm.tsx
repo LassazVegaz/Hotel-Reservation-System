@@ -4,8 +4,8 @@ import { UserRole } from "../../enums/user-role.enum";
 import { User } from "../../types/user.type";
 import * as yup from "yup";
 import { FormikMUITextField } from "../../components/FormikMUITextField/FormikMUITextField";
-import { apiHelpers } from "../../helpers/api.helpers";
 import { useUsersApi } from "../../hooks/users-api-calls.hook";
+import { useNavigate } from "react-router-dom";
 
 type CreateAccountFormValues = Omit<User, "id"> & {
 	password: string;
@@ -25,6 +25,7 @@ const validationSchema = yup.object({
 
 export const CreateAcountForm = () => {
 	const { createUser } = useUsersApi();
+	const navigate = useNavigate();
 
 	const initialValues: CreateAccountFormValues = {
 		name: "",
@@ -111,7 +112,9 @@ export const CreateAcountForm = () => {
 			>
 				Sign Up
 			</Button>
-			<Button variant="contained">Sign In</Button>
+			<Button variant="contained" onClick={() => navigate("/login")}>
+				Sign In
+			</Button>
 		</Box>
 	);
 };

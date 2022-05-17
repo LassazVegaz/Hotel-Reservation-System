@@ -1,7 +1,10 @@
 import { Box, TextField, Button } from "@mui/material";
 import { Formik } from "formik";
+import { useNavigate } from "react-router-dom";
 
 export const LoginForm = () => {
+	const navigate = useNavigate();
+
 	return (
 		<Formik
 			initialValues={{}}
@@ -26,7 +29,9 @@ export const LoginForm = () => {
 				>
 					Sign In
 				</Button>
-				<Button variant="contained">Sign Up</Button>
+				<Button variant="contained" onClick={() => navigate("/")}>
+					Sign Up
+				</Button>
 			</Box>
 		</Formik>
 	);
