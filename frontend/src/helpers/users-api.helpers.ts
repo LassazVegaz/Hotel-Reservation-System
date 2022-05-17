@@ -2,6 +2,7 @@ import { User } from "../types/user.type";
 import { appAxios } from "./api.helpers";
 import endpoints from "../api-endpoints.json";
 import { LoginResult } from "../types/login-results.type";
+import { authHelper } from "./auth.helper";
 
 const createUser = async (user: User) => {
 	try {
@@ -19,6 +20,10 @@ const loginUser = async (email: string, password: string) => {
 			email,
 			password,
 		});
+
+		// set token in local storage
+		authHelper.setToken(res.data.access_token);
+
 		return res.data;
 	} catch (error) {
 		console.error(error);
