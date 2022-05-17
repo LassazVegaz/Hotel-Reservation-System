@@ -1,4 +1,4 @@
-import { apiHelpers } from "../helpers/api.helpers";
+import { apiHelpers } from "../helpers/users-api.helpers";
 import { User } from "../types/user.type";
 import { useApi } from "./api-calls.hook";
 
