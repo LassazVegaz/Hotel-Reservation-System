@@ -1,29 +1,19 @@
 import { loaderActions } from "../redux/slices/loader.slice";
-import { notificationActions } from "../redux/slices/notification.slice";
+import { useNotifications } from "./notifications.hook";
 import { useAppDispatch } from "./redux.hooks";
 
 export const useApi = () => {
 	const dispatch = useAppDispatch();
+	const { showSuccess, showError } = useNotifications();
 
 	return async (cb: () => Promise<void>, throwEx = false) => {
 		try {
 			dispatch(loaderActions.startLoading());
 			await cb();
-			dispatch(
-				notificationActions.showNotification({
-					message: "Success",
-					type: "success",
-				})
-			);
+			showSuccess("Successfull");
 		} catch (error) {
 			if (throwEx) throw error;
-			else
-				dispatch(
-					notificationActions.showNotification({
-						message: "Failed",
-						type: "error",
-					})
-				);
+			else showError("Failed");
 		} finally {
 			dispatch(loaderActions.stopLoading());
 		}
