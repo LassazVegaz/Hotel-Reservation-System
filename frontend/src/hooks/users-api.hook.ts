@@ -1,5 +1,6 @@
 import { AxiosError } from "axios";
 import { useDispatch } from "react-redux";
+import { appAxios } from "../helpers/api.helpers";
 import { authHelper } from "../helpers/auth.helper";
 import { apiHelpers } from "../helpers/users-api.helpers";
 import { authActions } from "../redux/slices/auth.slice";
@@ -21,6 +22,8 @@ export const useUsersApi = () => {
 					roleId: data.roleId,
 				})
 			);
+		} else {
+			dispatch(authActions.setLoggedUser(false));
 		}
 	};
 
@@ -37,7 +40,7 @@ export const useUsersApi = () => {
 	const loginUser = async (
 		email: string,
 		password: string
-	): Promise<void> => {
+	): Promise<boolean> => {
 		try {
 			await api(async () => {
 				const token = await apiHelpers.loginUser(email, password);
@@ -46,16 +49,27 @@ export const useUsersApi = () => {
 					access_token: token,
 					...user,
 				});
+				refreshAuthtore();
 			}, true);
+
+			return true;
 		} catch (error) {
 			if (error instanceof AxiosError) {
 				if (error.response?.status === 401) {
 					showError("Invalid credentials");
 				}
-			}
-			console.error(error);
+			} else console.error(error);
 		}
+
+		return false;
 	};
 
-	return { createUser, loginUser, refreshAuthtore };
+	const logoutUser = () => {
+		authHelper.removeAuthData();
+		refreshAuthtore();
+		// remove header from axios
+		appAxios.defaults.headers.common["Authorization"] = "";
+	};
+
+	return { createUser, loginUser, refreshAuthtore, logoutUser };
 };

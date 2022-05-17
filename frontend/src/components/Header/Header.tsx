@@ -14,6 +14,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserRole } from "../../enums/user-role.enum";
 import { useAppSelector } from "../../hooks/redux.hooks";
+import { useUsersApi } from "../../hooks/users-api.hook";
 
 type NavLink = {
 	text: string;
@@ -23,6 +24,7 @@ type NavLink = {
 const HeaderComponent = ({ links }: { links: NavLink[] }) => {
 	const navigate = useNavigate();
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+	const { logoutUser } = useUsersApi();
 
 	const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
 		setAnchorEl(event.currentTarget);
@@ -30,6 +32,11 @@ const HeaderComponent = ({ links }: { links: NavLink[] }) => {
 
 	const handleClose = () => {
 		setAnchorEl(null);
+	};
+
+	const handleLogout = () => {
+		handleClose();
+		logoutUser();
 	};
 
 	return (
@@ -72,7 +79,7 @@ const HeaderComponent = ({ links }: { links: NavLink[] }) => {
 								open={Boolean(anchorEl)}
 								onClose={handleClose}
 							>
-								<MenuItem onClick={handleClose}>
+								<MenuItem onClick={handleLogout}>
 									Logout
 								</MenuItem>
 							</Menu>

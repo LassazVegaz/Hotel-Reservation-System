@@ -18,10 +18,11 @@ const initialValues = {
 export const LoginForm = () => {
 	const { loginUser } = useUsersApi();
 	const navigate = useNavigate();
+
 	const form = useFormik({
 		initialValues,
-		onSubmit: (values) => {
-			loginUser(values.email, values.password);
+		onSubmit: async (values) => {
+			if (await loginUser(values.email, values.password)) navigate("/");
 		},
 		validationSchema,
 	});
