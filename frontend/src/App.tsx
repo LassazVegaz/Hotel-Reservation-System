@@ -6,6 +6,7 @@ import { Notification } from "./components/Notification/Notification";
 import { useAppSelector } from "./hooks/redux.hooks";
 import { CreateAccountPage } from "./pages/CreateAccountPage/CreateAccountPage";
 import { LoginPage } from "./pages/LoginPage/LoginPage";
+import { NotFoundPage } from "./pages/NotFoundPage/NotFoundPage";
 
 function App() {
 	const isLoading = useAppSelector((s) => s.loader.isLoading);
@@ -24,6 +25,8 @@ function App() {
 						<Route path="/login" element={<LoginPage />} />
 					</>
 				)}
+
+				<Route path="*" element={<NotFoundPage />} />
 			</Routes>
 
 			<Footer />
