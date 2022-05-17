@@ -1,13 +1,22 @@
-const TOKEN_KEY = "_";
+import { UserRole } from "../enums/user-role.enum";
+
+const AUTH_KEY = "_";
+
+export type AuthData = {
+	access_token: string;
+	id: number;
+	roleId: UserRole;
+};
 
 export const authHelper = {
-	setToken: (token: string) => {
-		localStorage.setItem(TOKEN_KEY, token);
+	setAuthData: (data: AuthData) => {
+		localStorage.setItem(AUTH_KEY, JSON.stringify(data));
 	},
-	getToken: () => {
-		return localStorage.getItem(TOKEN_KEY);
+	getAuthData: (): AuthData => {
+		const data = localStorage.getItem(AUTH_KEY);
+		return data ? JSON.parse(data) : null;
 	},
-	removeToken: () => {
-		localStorage.removeItem(TOKEN_KEY);
+	removeAuthData: () => {
+		localStorage.removeItem(AUTH_KEY);
 	},
 };

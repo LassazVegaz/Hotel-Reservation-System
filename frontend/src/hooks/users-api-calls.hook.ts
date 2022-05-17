@@ -1,5 +1,5 @@
+import { authHelper } from "../helpers/auth.helper";
 import { apiHelpers } from "../helpers/users-api.helpers";
-import { LoginResult } from "../types/login-results.type";
 import { User } from "../types/user.type";
 import { useApi } from "./api-calls.hook";
 
@@ -19,19 +19,20 @@ export const useUsersApi = () => {
 	const loginUser = async (
 		email: string,
 		password: string
-	): Promise<LoginResult | null> => {
-		let loginResults: LoginResult | null = null;
-
+	): Promise<void> => {
 		try {
 			await api(async () => {
-				loginResults = await apiHelpers.loginUser(email, password);
+				const token = await apiHelpers.loginUser(email, password);
+				const user = await apiHelpers.getLoggedInUser();
+				authHelper.setAuthData({
+					access_token: token,
+					...user,
+				});
 			});
 		} catch (error) {
 			console.error(error);
 			debugger;
 		}
-
-		return loginResults;
 	};
 
 	return { createUser, loginUser };
