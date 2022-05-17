@@ -9,6 +9,7 @@ import { LoginPage } from "./pages/LoginPage/LoginPage";
 
 function App() {
 	const isLoading = useAppSelector((s) => s.loader.isLoading);
+	const authData = useAppSelector((s) => s.auth);
 
 	return (
 		<>
@@ -17,8 +18,12 @@ function App() {
 			<Notification />
 
 			<Routes>
-				<Route path="/" element={<CreateAccountPage />} />
-				<Route path="/login" element={<LoginPage />} />
+				{authData && (
+					<>
+						<Route path="/" element={<CreateAccountPage />} />
+						<Route path="/login" element={<LoginPage />} />
+					</>
+				)}
 			</Routes>
 
 			<Footer />

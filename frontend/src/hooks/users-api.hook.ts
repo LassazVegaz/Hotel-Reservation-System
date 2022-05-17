@@ -1,6 +1,8 @@
 import { AxiosError } from "axios";
+import { useDispatch } from "react-redux";
 import { authHelper } from "../helpers/auth.helper";
 import { apiHelpers } from "../helpers/users-api.helpers";
+import { authActions } from "../redux/slices/auth.slice";
 import { User } from "../types/user.type";
 import { useApi } from "./api.hook";
 import { useNotifications } from "./notifications.hook";
@@ -8,6 +10,19 @@ import { useNotifications } from "./notifications.hook";
 export const useUsersApi = () => {
 	const api = useApi();
 	const { showError } = useNotifications();
+	const dispatch = useDispatch();
+
+	const setAuthStore = () => {
+		const data = authHelper.getAuthData();
+		if (data) {
+			dispatch(
+				authActions.setLoggedUser({
+					id: data.id,
+					roleId: data.roleId,
+				})
+			);
+		}
+	};
 
 	const createUser = async (user: User): Promise<User | null> => {
 		let newUser: User | null = null;
@@ -42,5 +57,5 @@ export const useUsersApi = () => {
 		}
 	};
 
-	return { createUser, loginUser };
+	return { createUser, loginUser, setAuthtore: setAuthStore };
 };

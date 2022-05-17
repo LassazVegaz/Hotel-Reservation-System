@@ -1,17 +1,17 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AuthData } from "../../helpers/auth.helper";
 
-type AuthSliceState = Omit<AuthData, "access_token"> | null;
+type AuthSliceState = Omit<AuthData, "access_token"> | false;
 
-const initialState: AuthSliceState = null;
+let initialState: AuthSliceState = false;
 
 export const authSlice = createSlice({
 	name: "auth",
-	initialState,
+	initialState: initialState as AuthSliceState,
 	reducers: {
 		setLoggedUser: (
 			state: AuthSliceState,
-			action: PayloadAction<Omit<AuthData, "access_token">>
+			action: PayloadAction<AuthSliceState>
 		) => {
 			state = action.payload;
 		},

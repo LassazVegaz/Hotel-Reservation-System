@@ -12,7 +12,7 @@ export const authHelper = {
 	setAuthData: (data: AuthData) => {
 		localStorage.setItem(AUTH_KEY, JSON.stringify(data));
 	},
-	getAuthData: (): AuthData => {
+	getAuthData: (): AuthData | null => {
 		const data = localStorage.getItem(AUTH_KEY);
 		return data ? JSON.parse(data) : null;
 	},
