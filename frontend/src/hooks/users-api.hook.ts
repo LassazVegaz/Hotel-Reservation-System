@@ -12,7 +12,7 @@ export const useUsersApi = () => {
 	const { showError } = useNotifications();
 	const dispatch = useDispatch();
 
-	const setAuthStore = () => {
+	const refreshAuthtore = () => {
 		const data = authHelper.getAuthData();
 		if (data) {
 			dispatch(
@@ -57,5 +57,5 @@ export const useUsersApi = () => {
 		}
 	};
 
-	return { createUser, loginUser, setAuthtore: setAuthStore };
+	return { createUser, loginUser, refreshAuthtore };
 };
