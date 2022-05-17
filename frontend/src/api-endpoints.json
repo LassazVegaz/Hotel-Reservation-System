@@ -2,6 +2,7 @@
 	"users": {
 		"common": "/users",
 		"login": "/users/auth/login",
-		"getLoggedUser": "/users/auth"
+		"getLoggedUser": "/users/auth",
+		"isEmailTaken": "/users/emailTaken"
 	}
 }

@@ -71,5 +71,15 @@ export const useUsersApi = () => {
 		appAxios.defaults.headers.common["Authorization"] = "";
 	};
 
-	return { createUser, loginUser, refreshAuthtore, logoutUser };
+	const isEmailTaken = async (email: string): Promise<boolean | null> => {
+		let taken: boolean | null = null;
+
+		await api(async () => {
+			taken = await apiHelpers.isEmailTaken(email);
+		});
+
+		return taken;
+	};
+
+	return { createUser, loginUser, refreshAuthtore, logoutUser, isEmailTaken };
 };

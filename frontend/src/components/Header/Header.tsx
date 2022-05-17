@@ -37,6 +37,7 @@ const HeaderComponent = ({ links }: { links: NavLink[] }) => {
 	const handleLogout = () => {
 		handleClose();
 		logoutUser();
+		navigate("/login");
 	};
 
 	return (

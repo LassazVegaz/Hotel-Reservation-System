@@ -45,8 +45,21 @@ const getLoggedInUser = async () => {
 	}
 };
 
+const isEmailTaken = async (email: string) => {
+	try {
+		const res = await appAxios.get<boolean>(
+			`${endpoints.users.isEmailTaken}/${email}`
+		);
+		return res.data;
+	} catch (error) {
+		console.error(error);
+		throw error;
+	}
+};
+
 export const apiHelpers = {
 	createUser,
 	loginUser,
 	getLoggedInUser,
+	isEmailTaken,
 };
