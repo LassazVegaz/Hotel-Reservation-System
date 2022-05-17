@@ -3,7 +3,7 @@ import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { FormikMUITextField } from "../../components/FormikMUITextField/FormikMUITextField";
-import { useUsersApi } from "../../hooks/users-api-calls.hook";
+import { useUsersApi } from "../../hooks/users-api.hook";
 
 const validationSchema = Yup.object({
 	email: Yup.string().email("Invalid email").required("Required"),

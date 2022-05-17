@@ -4,7 +4,7 @@ import { UserRole } from "../../enums/user-role.enum";
 import { User } from "../../types/user.type";
 import * as yup from "yup";
 import { FormikMUITextField } from "../../components/FormikMUITextField/FormikMUITextField";
-import { useUsersApi } from "../../hooks/users-api-calls.hook";
+import { useUsersApi } from "../../hooks/users-api.hook";
 import { useNavigate } from "react-router-dom";
 
 type CreateAccountFormValues = Omit<User, "id"> & {

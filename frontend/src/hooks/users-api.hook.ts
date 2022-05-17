@@ -2,7 +2,7 @@ import { AxiosError } from "axios";
 import { authHelper } from "../helpers/auth.helper";
 import { apiHelpers } from "../helpers/users-api.helpers";
 import { User } from "../types/user.type";
-import { useApi } from "./api-calls.hook";
+import { useApi } from "./api.hook";
 import { useNotifications } from "./notifications.hook";
 
 export const useUsersApi = () => {
