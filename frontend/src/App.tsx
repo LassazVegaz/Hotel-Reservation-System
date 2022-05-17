@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import { Footer } from "./components/Footer/Footer";
 import { Header } from "./components/Header/Header";
 import { Loader } from "./components/Loader/Loader";
@@ -46,6 +46,12 @@ function App() {
 								<Route path="/" element={<MyBookingsPage />} />
 								<Route path="/book" element={<BookingPage />} />
 							</>
+						)}
+						{authData.roleId !== UserRole.Customer && (
+							<Route
+								path="/"
+								element={<Navigate to="/hotels" replace />}
+							/>
 						)}
 						<Route path="/hotels" element={<HotelsListPage />} />
 						<Route path="/hotel" element={<HotelViewPage />} />

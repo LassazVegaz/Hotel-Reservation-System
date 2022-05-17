@@ -5,9 +5,12 @@ import {
 	Button,
 	Container,
 	IconButton,
+	Menu,
+	MenuItem,
 	Toolbar,
 	Typography,
 } from "@mui/material";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserRole } from "../../enums/user-role.enum";
 import { useAppSelector } from "../../hooks/redux.hooks";
@@ -19,6 +22,15 @@ type NavLink = {
 
 const HeaderComponent = ({ links }: { links: NavLink[] }) => {
 	const navigate = useNavigate();
+	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+
+	const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
+		setAnchorEl(event.currentTarget);
+	};
+
+	const handleClose = () => {
+		setAnchorEl(null);
+	};
 
 	return (
 		<>
@@ -42,9 +54,28 @@ const HeaderComponent = ({ links }: { links: NavLink[] }) => {
 						</Box>
 
 						<Box>
-							<IconButton>
+							<IconButton onClick={handleMenu}>
 								<Avatar />
 							</IconButton>
+							<Menu
+								id="menu-appbar"
+								anchorEl={anchorEl}
+								anchorOrigin={{
+									vertical: "bottom",
+									horizontal: "right",
+								}}
+								keepMounted
+								transformOrigin={{
+									vertical: "top",
+									horizontal: "right",
+								}}
+								open={Boolean(anchorEl)}
+								onClose={handleClose}
+							>
+								<MenuItem onClick={handleClose}>
+									Logout
+								</MenuItem>
+							</Menu>
 						</Box>
 					</Toolbar>
 				</Container>
