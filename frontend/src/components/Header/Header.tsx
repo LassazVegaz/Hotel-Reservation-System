@@ -8,10 +8,18 @@ import {
 	Toolbar,
 	Typography,
 } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { UserRole } from "../../enums/user-role.enum";
+import { useAppSelector } from "../../hooks/redux.hooks";
 
-const pages = ["Home", "About", "Contact"];
+type NavLink = {
+	text: string;
+	path: string;
+};
 
-export const Header = () => {
+const HeaderComponent = ({ links }: { links: NavLink[] }) => {
+	const navigate = useNavigate();
+
 	return (
 		<>
 			<AppBar>
@@ -20,14 +28,15 @@ export const Header = () => {
 						<Typography variant="h5">HRS</Typography>
 
 						<Box flexGrow={1} ml={5}>
-							{pages.map((page, index) => (
+							{links.map((link, index) => (
 								<Button
 									sx={{
 										color: "white",
 									}}
 									key={index}
+									onClick={() => navigate(link.path)}
 								>
-									{page}
+									{link.text}
 								</Button>
 							))}
 						</Box>
@@ -44,4 +53,24 @@ export const Header = () => {
 			<Toolbar />
 		</>
 	);
+};
+
+export const Header = () => {
+	const authData = useAppSelector((s) => s.auth);
+
+	let links: NavLink[] = [
+		{
+			text: "Hotels",
+			path: "/hotels",
+		},
+	];
+
+	if (authData && authData.roleId === UserRole.Customer) {
+		links.push({
+			text: "My bookings",
+			path: "/",
+		});
+	}
+
+	return authData ? <HeaderComponent links={links} /> : null;
 };
