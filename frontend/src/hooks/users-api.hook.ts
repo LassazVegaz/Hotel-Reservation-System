@@ -1,5 +1,4 @@
 import { AxiosError } from "axios";
-import { useDispatch } from "react-redux";
 import { appAxios } from "../helpers/api.helpers";
 import { authHelper } from "../helpers/auth.helper";
 import { usersApiHelpers } from "../helpers/users-api.helpers";
@@ -7,11 +6,12 @@ import { authActions } from "../redux/slices/auth.slice";
 import { User } from "../types/user.type";
 import { useApi } from "./api.hook";
 import { useNotifications } from "./notifications.hook";
+import { useAppDispatch } from "./redux.hooks";
 
 export const useUsersApi = () => {
 	const api = useApi();
 	const { showError } = useNotifications();
-	const dispatch = useDispatch();
+	const dispatch = useAppDispatch();
 
 	const refreshAuthtore = () => {
 		const data = authHelper.getAuthData();
