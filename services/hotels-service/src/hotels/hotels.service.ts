@@ -20,7 +20,7 @@ export class HotelsService {
 
   async createHotel(hotel: Hotel): Promise<Hotel> {
     // since hotel id is auto generated, we don't need to pass it
-    if (hotel.id) delete hotel.id;
+    if (typeof hotel.id !== 'undefined') delete hotel.id;
 
     return this.prismaService.hotel.create({
       data: hotel,
@@ -32,8 +32,8 @@ export class HotelsService {
     if (!(await this.hotelExists(id)))
       throw new NotFoundException(`Hotel with id ${id} not found`);
 
-    // remove hotel id if it exists
-    if (hotel.id) delete hotel.id;
+    // since hotel id is auto generated, we don't need to pass it
+    if (typeof hotel.id !== 'undefined') delete hotel.id;
 
     return this.prismaService.hotel.update({
       where: {
