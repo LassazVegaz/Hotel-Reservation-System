@@ -4,5 +4,8 @@
 		"login": "/users/auth/login",
 		"getLoggedUser": "/users/auth",
 		"isEmailTaken": "/users/emailTaken"
+	},
+	"hotels": {
+		"common": "/hotels"
 	}
 }
