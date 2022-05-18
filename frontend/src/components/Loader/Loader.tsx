@@ -11,8 +11,9 @@ export const Loader = ({ show }: { show: boolean }) => {
 			display="flex"
 			justifyContent="center"
 			alignItems="center"
+			zIndex={5000}
 			sx={{
-				backgroundColor: "#817e85",
+				backgroundColor: "#2e2f548c",
 			}}
 		>
 			<CircularProgress />
