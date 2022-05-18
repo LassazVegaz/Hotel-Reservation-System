@@ -8,6 +8,8 @@ import {
 } from "@mui/material";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { useHotelsApi } from "../../hooks/hotels-api.hook";
+import { useAppSelector } from "../../hooks/redux.hooks";
 import { FormikMUITextField } from "../FormikMUITextField/FormikMUITextField";
 
 type AddHotelDialogProps = {
@@ -26,13 +28,29 @@ const validationSchema = Yup.object({
 });
 
 export const AddHotelDialog = ({ open, onClose }: AddHotelDialogProps) => {
+	const hotelAdminId = useAppSelector((s) => (s.auth ? s.auth.id : 0));
+	const { createHotel } = useHotelsApi();
+
 	const form = useFormik({
 		initialValues,
-		onSubmit: (values) => {
-			console.log(values);
+		onSubmit: async (values) => {
+			const res = await createHotel({
+				...values,
+				hotelAdminId,
+				id: 0,
+				location_lat: 0,
+				location_lng: 0,
+			});
+
+			if (res) closeForm();
 		},
 		validationSchema,
 	});
+
+	const closeForm = () => {
+		form.resetForm();
+		onClose();
+	};
 
 	return (
 		<Dialog open={open}>
@@ -59,10 +77,7 @@ export const AddHotelDialog = ({ open, onClose }: AddHotelDialogProps) => {
 					<Button
 						variant="outlined"
 						color="primary"
-						onClick={() => {
-							form.resetForm();
-							onClose();
-						}}
+						onClick={closeForm}
 					>
 						Cancel
 					</Button>
