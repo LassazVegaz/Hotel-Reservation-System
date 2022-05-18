@@ -1,5 +1,4 @@
 import { AxiosError } from "axios";
-import { appAxios } from "../helpers/api.helpers";
 import { authHelper } from "../helpers/auth.helper";
 import { usersApiHelpers } from "../helpers/users-api.helpers";
 import { authActions } from "../redux/slices/auth.slice";
@@ -67,8 +66,6 @@ export const useUsersApi = () => {
 	const logoutUser = () => {
 		authHelper.removeAuthData();
 		refreshAuthtore();
-		// remove header from axios
-		appAxios.defaults.headers.common["Authorization"] = "";
 	};
 
 	const isEmailTaken = async (email: string): Promise<boolean | null> => {

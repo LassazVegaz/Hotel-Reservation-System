@@ -19,12 +19,6 @@ const loginUser = async (email: string, password: string) => {
 			email,
 			password,
 		});
-
-		// add bearer token to axios headers
-		appAxios.defaults.headers.common[
-			"Authorization"
-		] = `Bearer ${res.data}`;
-
 		return res.data;
 	} catch (error) {
 		console.error(error);
