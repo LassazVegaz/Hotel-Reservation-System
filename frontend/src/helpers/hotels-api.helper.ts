@@ -12,4 +12,4 @@ const createHotel = async (hotel: Hotel) => {
 	}
 };
 
-export const hotelsHelper = { createHotel };
+export const hotelsApiHelper = { createHotel };
