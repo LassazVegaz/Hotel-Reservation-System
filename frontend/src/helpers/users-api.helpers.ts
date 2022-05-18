@@ -57,7 +57,7 @@ const isEmailTaken = async (email: string) => {
 	}
 };
 
-export const apiHelpers = {
+export const usersApiHelpers = {
 	createUser,
 	loginUser,
 	getLoggedInUser,

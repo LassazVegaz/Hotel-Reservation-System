@@ -2,7 +2,7 @@ import { AxiosError } from "axios";
 import { useDispatch } from "react-redux";
 import { appAxios } from "../helpers/api.helpers";
 import { authHelper } from "../helpers/auth.helper";
-import { apiHelpers } from "../helpers/users-api.helpers";
+import { usersApiHelpers } from "../helpers/users-api.helpers";
 import { authActions } from "../redux/slices/auth.slice";
 import { User } from "../types/user.type";
 import { useApi } from "./api.hook";
@@ -31,7 +31,7 @@ export const useUsersApi = () => {
 		let newUser: User | null = null;
 
 		await api(async () => {
-			newUser = await apiHelpers.createUser(user);
+			newUser = await usersApiHelpers.createUser(user);
 		});
 
 		return newUser;
@@ -43,8 +43,8 @@ export const useUsersApi = () => {
 	): Promise<boolean> => {
 		try {
 			await api(async () => {
-				const token = await apiHelpers.loginUser(email, password);
-				const user = await apiHelpers.getLoggedInUser();
+				const token = await usersApiHelpers.loginUser(email, password);
+				const user = await usersApiHelpers.getLoggedInUser();
 				authHelper.setAuthData({
 					access_token: token,
 					...user,
@@ -75,7 +75,7 @@ export const useUsersApi = () => {
 		let taken: boolean | null = null;
 
 		await api(async () => {
-			taken = await apiHelpers.isEmailTaken(email);
+			taken = await usersApiHelpers.isEmailTaken(email);
 		});
 
 		return taken;
