@@ -11,5 +11,9 @@
 	},
 	"reservations": {
 		"common": "hotels/{hotelId}/reservations"
+	},
+	"bookings": {
+		"common": "reservations/{hotelId}/reservations",
+		"customers": "reservations/customers/{customerId}"
 	}
 }
