@@ -49,5 +49,21 @@ export const useHotelsApi = () => {
 		return hotels;
 	};
 
-	return { createHotel, getHotelsByAdmin, getAllHotels };
+	const getHotelById = async (hotelId: number): Promise<Hotel | null> => {
+		let hotel: Hotel | null = null;
+
+		await api(
+			async () => {
+				hotel = await hotelsApiHelper.getHotelById(hotelId);
+			},
+			{
+				showSuccessNotification: false,
+				showErrorNotification: false,
+			}
+		);
+
+		return hotel;
+	};
+
+	return { createHotel, getHotelsByAdmin, getAllHotels, getHotelById };
 };

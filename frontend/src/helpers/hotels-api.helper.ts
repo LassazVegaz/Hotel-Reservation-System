@@ -33,4 +33,20 @@ const getAllHotels = async (): Promise<Hotel[]> => {
 	}
 };
 
-export const hotelsApiHelper = { createHotel, getHotelsByAdmin, getAllHotels };
+const getHotelById = async (hotelId: number): Promise<Hotel> => {
+	try {
+		const url = `${endpoints.hotels.common}/${hotelId}`;
+		const res = await appAxios.get<Hotel>(url);
+		return res.data;
+	} catch (error) {
+		console.error(error);
+		throw error;
+	}
+};
+
+export const hotelsApiHelper = {
+	createHotel,
+	getHotelsByAdmin,
+	getAllHotels,
+	getHotelById,
+};
