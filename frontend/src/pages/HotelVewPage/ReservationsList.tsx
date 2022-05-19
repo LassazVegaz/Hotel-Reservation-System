@@ -7,10 +7,26 @@ import {
 	ListItemSecondaryAction,
 	Button,
 	List,
+	Typography,
 } from "@mui/material";
 import { Reservation } from "../../types/hotel-reservation.type";
 
 const ReservationItem = ({ reservation }: { reservation: Reservation }) => {
+	const secondaryText = (
+		<>
+			<Typography>
+				Price: {Number(reservation.price).toFixed(2)}
+			</Typography>
+			<Typography>
+				Taxi service available:{" "}
+				{reservation.taxiServiceAvailable ? "Yes" : "No"}
+			</Typography>
+			<Typography>
+				Post paid available: {reservation.allowPostPaid ? "Yes" : "No"}
+			</Typography>
+		</>
+	);
+
 	return (
 		<ListItemButton>
 			<ListItemAvatar>
@@ -20,7 +36,7 @@ const ReservationItem = ({ reservation }: { reservation: Reservation }) => {
 			</ListItemAvatar>
 			<ListItemText
 				primary={reservation.description}
-				secondary={Number(reservation.price).toFixed(2)}
+				secondary={secondaryText}
 			/>
 			<ListItemSecondaryAction>
 				<Button variant="outlined">BOOK</Button>
