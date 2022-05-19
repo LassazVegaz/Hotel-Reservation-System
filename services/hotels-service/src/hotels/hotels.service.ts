@@ -18,6 +18,17 @@ export class HotelsService {
     });
   }
 
+  /**
+   * Get hotels by hotel admin
+   */
+  async getHotelsByAdmin(hotelAdminId: number): Promise<Hotel[]> {
+    return this.prismaService.hotel.findMany({
+      where: {
+        hotelAdminId,
+      },
+    });
+  }
+
   async createHotel(hotel: Hotel): Promise<Hotel> {
     // since hotel id is auto generated, we don't need to pass it
     if (typeof hotel.id !== 'undefined') delete hotel.id;

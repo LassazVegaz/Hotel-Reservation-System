@@ -6,6 +6,7 @@
 		"isEmailTaken": "/users/emailTaken"
 	},
 	"hotels": {
-		"common": "/hotels"
+		"common": "/hotels",
+		"getHotelsByAdmin": "/hotels/hotelAdmin"
 	}
 }
