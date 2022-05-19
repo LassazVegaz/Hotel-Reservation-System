@@ -30,12 +30,20 @@ const validationSchema = Yup.object({
 export const ProfilePage = () => {
 	const userId = useAppSelector((state) => (state.auth ? state.auth.id : 0));
 	const [user, setUser] = useState<User | null>(null);
-	const { getUser } = useUsersApi();
+	const { getUser, updateUser } = useUsersApi();
 
 	const form = useFormik({
 		initialValues,
 		validationSchema,
-		onSubmit: async (values) => {},
+		onSubmit: async (values) => {
+			if (user) {
+				await updateUser(userId, {
+					...user,
+					...values,
+				});
+				await fillUserData();
+			}
+		},
 	});
 
 	useEffect(() => {

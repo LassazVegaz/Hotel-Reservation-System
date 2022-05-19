@@ -61,10 +61,24 @@ const getUser = async (id: number) => {
 	}
 };
 
+const updateUser = async (id: number, user: User) => {
+	try {
+		const res = await appAxios.patch<User>(
+			`${endpoints.users.common}/${id}`,
+			user
+		);
+		return res.data;
+	} catch (error) {
+		console.error(error);
+		throw error;
+	}
+};
+
 export const usersApiHelpers = {
 	createUser,
 	loginUser,
 	getLoggedInUser,
 	isEmailTaken,
 	getUser,
+	updateUser,
 };

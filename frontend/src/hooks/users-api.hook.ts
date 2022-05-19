@@ -108,6 +108,16 @@ export const useUsersApi = () => {
 		return user;
 	};
 
+	const updateUser = async (id: number, user: User): Promise<User | null> => {
+		let updatedUser: User | null = null;
+
+		await api(async () => {
+			updatedUser = await usersApiHelpers.updateUser(id, user);
+		});
+
+		return updatedUser;
+	};
+
 	return {
 		createUser,
 		loginUser,
@@ -115,5 +125,6 @@ export const useUsersApi = () => {
 		logoutUser,
 		isEmailTaken,
 		getUser,
+		updateUser,
 	};
 };
