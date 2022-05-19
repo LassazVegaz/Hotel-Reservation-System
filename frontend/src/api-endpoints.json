@@ -1,0 +1,19 @@
+{
+	"users": {
+		"common": "/users",
+		"login": "/users/auth/login",
+		"getLoggedUser": "/users/auth",
+		"isEmailTaken": "/users/emailTaken"
+	},
+	"hotels": {
+		"common": "/hotels",
+		"getHotelsByAdmin": "/hotels/hotelAdmin"
+	},
+	"reservations": {
+		"common": "hotels/{hotelId}/reservations"
+	},
+	"bookings": {
+		"common": "reservations/{hotelId}/reservations",
+		"customers": "reservations/customers/{customerId}"
+	}
+}

@@ -14,7 +14,16 @@ export const BookingPage = () => {
 				Select a date range for your Reservation
 			</Typography>
 
-			<HotelDetailsCard />
+			<HotelDetailsCard
+				hotel={{
+					name: "Hotel Name",
+					address: "Hotel Address",
+					hotelAdminId: 0,
+					id: 0,
+					location_lat: 0,
+					location_lng: 0,
+				}}
+			/>
 
 			<BookingForm />
 		</Container>

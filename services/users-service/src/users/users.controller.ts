@@ -29,6 +29,11 @@ export class UsersController {
     return this.usersService.createUser(createDto);
   }
 
+  @Get('emailTaken/:email')
+  async emailTaken(@Param('email') email: string): Promise<boolean> {
+    return Boolean(await this.usersService.getUserByEmail(email));
+  }
+
   @UseGuards(JwtAuthGuard)
   @Get()
   getUsers(): Promise<UserDTO[]> {

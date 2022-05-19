@@ -7,27 +7,58 @@ import {
 	ListItemText,
 	Typography,
 } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { AddHotelDialog } from "../../components/AddHotelDialog/AddHotelDialog";
+import { UserRole } from "../../enums/user-role.enum";
+import { useHotelsApi } from "../../hooks/hotels-api.hook";
+import { useAppSelector } from "../../hooks/redux.hooks";
+import { Hotel } from "../../types/hotel.type";
 
-const HotelsList = () => {
+const HotelsList = ({ hotels }: { hotels: Hotel[] }) => {
+	const navigate = useNavigate();
+
 	return (
 		<List>
-			<ListItemButton>
-				<ListItemText primary="Hotel 1" secondary="Address 1" />
-			</ListItemButton>
-			<ListItemButton>
-				<ListItemText primary="Hotel 1" secondary="Address 1" />
-			</ListItemButton>
-			<ListItemButton>
-				<ListItemText primary="Hotel 1" secondary="Address 1" />
-			</ListItemButton>
+			{hotels.map((hotel) => (
+				<ListItemButton
+					key={hotel.id}
+					onClick={() => navigate(`/hotels/${hotel.id}`)}
+				>
+					<ListItemText
+						primary={hotel.name}
+						secondary={hotel.address}
+					/>
+				</ListItemButton>
+			))}
 		</List>
 	);
 };
 
 export const HotelsListPage = () => {
+	const { getHotelsByAdmin, getAllHotels } = useHotelsApi();
+	const [hotels, setHotels] = useState([] as Hotel[]);
+	const authData = useAppSelector((s) =>
+		s.auth ? s.auth : { id: 0, roleId: 0 }
+	);
 	const [openDialog, setOpenDialog] = useState(false);
+
+	const getHotels = async () => {
+		const hotels = await (authData.roleId === UserRole.HotelAdmin
+			? getHotelsByAdmin(authData.id)
+			: getAllHotels());
+		if (hotels) setHotels(hotels);
+	};
+
+	useEffect(() => {
+		getHotels();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [authData]);
+
+	const title =
+		authData.roleId === UserRole.HotelAdmin
+			? "Your Hotels"
+			: "Choose a Convenient Hotel";
 
 	return (
 		<>
@@ -38,10 +69,10 @@ export const HotelsListPage = () => {
 				}}
 			>
 				<Typography variant="h4" textAlign="center">
-					Your Hotels
+					{title}
 				</Typography>
 
-				<HotelsList />
+				<HotelsList hotels={hotels} />
 
 				<Fab
 					sx={{
@@ -57,7 +88,10 @@ export const HotelsListPage = () => {
 
 			<AddHotelDialog
 				open={openDialog}
-				onClose={() => setOpenDialog(false)}
+				onClose={(created) => {
+					if (created) getHotels();
+					setOpenDialog(false);
+				}}
 			/>
 		</>
 	);

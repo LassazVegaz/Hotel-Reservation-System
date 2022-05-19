@@ -31,6 +31,13 @@ export class ReservationsController {
     return this.reservationsService.getReservations(Number(customerId));
   }
 
+  @Get('customers/:id/dates')
+  async getReservationDates(
+    @Param('id') customerId: string,
+  ): Promise<{ fromDate: Date; toDate: Date }[]> {
+    return this.reservationsService.getReservationDates(Number(customerId));
+  }
+
   @Get('/:id')
   async getReservation(@Param('id') id: string): Promise<Reservation> {
     return this.reservationsService.getReservation(Number(id));

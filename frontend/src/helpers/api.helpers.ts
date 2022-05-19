@@ -1,24 +1,33 @@
 import axios from "axios";
-import { User } from "../types/user.type";
 import config from "../config.json";
+import { authHelper } from "./auth.helper";
 
-const _axios = axios.create({
-	baseURL: config.baseUrl,
-	headers: {
-		"Content-Type": "application/json",
-	},
-});
+const createAxios = () => {
+	const _axios = axios.create({
+		baseURL: config.baseUrl,
+		headers: {
+			"Content-Type": "application/json",
+		},
+	});
 
-const createUser = async (user: User) => {
-	try {
-		const res = await _axios.post<User>("/users", user);
-		return res.data;
-	} catch (error) {
-		console.error(error);
-		throw error;
-	}
+	_axios.interceptors.request.use((config) => {
+		const authData = authHelper.getAuthData();
+
+		if (config.headers) {
+			// add or remove auth headers
+			if (authData) {
+				config.headers[
+					"Authorization"
+				] = `Bearer ${authData.access_token}`;
+			} else if (typeof config.headers["Authorization"] !== "undefined") {
+				delete config.headers["Authorization"];
+			}
+		}
+
+		return config;
+	});
+
+	return _axios;
 };
 
-export const apiHelpers = {
-	createUser,
-};
+export const appAxios = createAxios();

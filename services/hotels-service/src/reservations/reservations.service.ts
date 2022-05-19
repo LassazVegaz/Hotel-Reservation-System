@@ -24,7 +24,7 @@ export class ReservationsService {
 
   async createReservation(reservation: Reservation): Promise<Reservation> {
     // since reservation id is auto generated, we don't need to pass it
-    if (reservation.id) delete reservation.id;
+    if (typeof reservation.id !== 'undefined') delete reservation.id;
 
     return this.prismaService.reservation.create({
       data: reservation,
@@ -40,7 +40,7 @@ export class ReservationsService {
       throw new NotFoundException(`Reservation with id ${id} not found`);
 
     // remove reservation id if it exists
-    if (reservation.id) delete reservation.id;
+    if (typeof reservation.id !== 'undefined') delete reservation.id;
 
     return this.prismaService.reservation.update({
       where: {

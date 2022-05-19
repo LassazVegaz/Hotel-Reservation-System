@@ -8,7 +8,7 @@ export class ReservationsService {
 
   async createReservation(reservation: Reservation): Promise<Reservation> {
     // remove ID
-    delete reservation.id;
+    if (typeof reservation.id !== 'undefined') delete reservation.id;
 
     return this.prismaService.reservation.create({
       data: reservation,
@@ -21,6 +21,26 @@ export class ReservationsService {
         customerId,
       },
     });
+  }
+
+  async getReservationDates(customerId: number): Promise<
+    {
+      fromDate: Date;
+      toDate: Date;
+    }[]
+  > {
+    // select future from dates
+    const reservations = await this.prismaService.reservation.findMany({
+      where: {
+        customerId,
+      },
+      select: {
+        fromDate: true,
+        toDate: true,
+      },
+    });
+
+    return reservations;
   }
 
   async getReservation(id: number): Promise<Reservation> {
@@ -39,8 +59,15 @@ export class ReservationsService {
     if (!(await this.reservationExists(id)))
       throw new NotFoundException(`Reservation with ID ${id} not found`);
 
-    // on date range can be updated
-    const { id: _, customerId, reservationId, ...data } = reservation;
+    // only date range can be updated
+    const {
+      id: _,
+      customerId,
+      reservationId,
+      postPaidSelected,
+      taxiSerivceSelected,
+      ...data
+    } = reservation;
 
     return this.prismaService.reservation.update({
       where: {

@@ -1,11 +1,11 @@
 import { Close as CloseIcon } from "@mui/icons-material";
 import { Alert, IconButton } from "@mui/material";
-import { useAppDispatch, useAppSelector } from "../../hooks/redux.hooks";
-import { notificationActions } from "../../redux/slices/notification.slice";
+import { useNotifications } from "../../hooks/notifications.hook";
+import { useAppSelector } from "../../hooks/redux.hooks";
 
 export const Notification = () => {
 	const { message, type } = useAppSelector((s) => s.notification);
-	const dispatch = useAppDispatch();
+	const { hideNotification } = useNotifications();
 
 	return message ? (
 		<Alert
@@ -23,9 +23,7 @@ export const Notification = () => {
 					aria-label="close"
 					color="inherit"
 					size="small"
-					onClick={() =>
-						dispatch(notificationActions.hideNotification())
-					}
+					onClick={() => hideNotification()}
 				>
 					<CloseIcon fontSize="inherit" />
 				</IconButton>

@@ -5,20 +5,58 @@ import {
 	DialogActions,
 	DialogContent,
 	DialogTitle,
-	TextField,
 } from "@mui/material";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import { useHotelsApi } from "../../hooks/hotels-api.hook";
+import { useAppSelector } from "../../hooks/redux.hooks";
+import { FormikMUITextField } from "../FormikMUITextField/FormikMUITextField";
 
 type AddHotelDialogProps = {
 	open: boolean;
-	onClose: () => void;
+	onClose: (created: boolean) => void;
 };
 
+const initialValues = {
+	name: "",
+	address: "",
+};
+
+const validationSchema = Yup.object({
+	name: Yup.string().required("Hotel name is required"),
+	address: Yup.string().required("Hotel address is required"),
+});
+
 export const AddHotelDialog = ({ open, onClose }: AddHotelDialogProps) => {
+	const hotelAdminId = useAppSelector((s) => (s.auth ? s.auth.id : 0));
+	const { createHotel } = useHotelsApi();
+
+	const form = useFormik({
+		initialValues,
+		onSubmit: async (values) => {
+			const res = await createHotel({
+				...values,
+				hotelAdminId,
+				id: 0,
+				location_lat: 0,
+				location_lng: 0,
+			});
+
+			if (res) closeForm(true);
+		},
+		validationSchema,
+	});
+
+	const closeForm = (created: boolean) => {
+		form.resetForm();
+		onClose(created);
+	};
+
 	return (
 		<Dialog open={open}>
 			<DialogTitle>Add A New Hotel</DialogTitle>
 
-			<Box component="form">
+			<Box component="form" onSubmit={form.handleSubmit}>
 				<DialogContent
 					sx={{
 						display: "flex",
@@ -27,23 +65,23 @@ export const AddHotelDialog = ({ open, onClose }: AddHotelDialogProps) => {
 						rowGap: 2,
 					}}
 				>
-					<TextField label="Name" />
-					<TextField label="Address" />
+					<FormikMUITextField label="Name" form={form} name="name" />
+					<FormikMUITextField
+						label="Address"
+						form={form}
+						name="address"
+					/>
 				</DialogContent>
 
 				<DialogActions>
 					<Button
 						variant="outlined"
 						color="primary"
-						onClick={onClose}
+						onClick={() => closeForm(false)}
 					>
 						Cancel
 					</Button>
-					<Button
-						variant="contained"
-						color="primary"
-						onClick={onClose}
-					>
+					<Button variant="contained" color="primary" type="submit">
 						Create
 					</Button>
 				</DialogActions>

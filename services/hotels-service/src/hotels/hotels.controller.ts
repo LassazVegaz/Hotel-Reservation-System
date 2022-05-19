@@ -27,6 +27,11 @@ export class HotelsController {
     return this.hotelsService.getHotel(parseInt(id));
   }
 
+  @Get('hotelAdmin/:id')
+  async getHotelsByAdmin(@Param('id') hotelAdminId: string): Promise<Hotel[]> {
+    return this.hotelsService.getHotelsByAdmin(parseInt(hotelAdminId));
+  }
+
   @Post()
   async createHotel(@Body() hotel: Hotel): Promise<Hotel> {
     return this.hotelsService.createHotel(hotel);

@@ -4,8 +4,9 @@ import { UserRole } from "../../enums/user-role.enum";
 import { User } from "../../types/user.type";
 import * as yup from "yup";
 import { FormikMUITextField } from "../../components/FormikMUITextField/FormikMUITextField";
-import { apiHelpers } from "../../helpers/api.helpers";
-import { useUsersApi } from "../../hooks/users-api-calls.hook";
+import { useUsersApi } from "../../hooks/users-api.hook";
+import { useNavigate } from "react-router-dom";
+import { useNotifications } from "../../hooks/notifications.hook";
 
 type CreateAccountFormValues = Omit<User, "id"> & {
 	password: string;
@@ -24,7 +25,9 @@ const validationSchema = yup.object({
 });
 
 export const CreateAcountForm = () => {
-	const { createUser } = useUsersApi();
+	const { createUser, isEmailTaken } = useUsersApi();
+	const navigate = useNavigate();
+	const { showError } = useNotifications();
 
 	const initialValues: CreateAccountFormValues = {
 		name: "",
@@ -38,12 +41,20 @@ export const CreateAcountForm = () => {
 	const form = useFormik({
 		initialValues,
 		validationSchema,
-		onSubmit: (values) => {
+		onSubmit: async (values) => {
+			// check if email is taken
+			if (await isEmailTaken(values.email)) {
+				showError("Email is already taken");
+				return;
+			}
+
 			const newUser: User = {
 				...values,
 				id: 0,
 			};
-			createUser(newUser);
+			if (await createUser(newUser)) {
+				navigate("/login");
+			}
 		},
 	});
 
@@ -111,7 +122,9 @@ export const CreateAcountForm = () => {
 			>
 				Sign Up
 			</Button>
-			<Button variant="contained">Sign In</Button>
+			<Button variant="contained" onClick={() => navigate("/login")}>
+				Sign In
+			</Button>
 		</Box>
 	);
 };
