@@ -95,9 +95,15 @@ export const useUsersApi = () => {
 	const getUser = async (id: number): Promise<User | null> => {
 		let user: User | null = null;
 
-		await api(async () => {
-			user = await usersApiHelpers.getUser(id);
-		});
+		await api(
+			async () => {
+				user = await usersApiHelpers.getUser(id);
+			},
+			{
+				showErrorNotification: false,
+				showSuccessNotification: false,
+			}
+		);
 
 		return user;
 	};
