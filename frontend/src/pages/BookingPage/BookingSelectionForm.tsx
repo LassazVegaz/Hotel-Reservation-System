@@ -111,7 +111,7 @@ export const BookingSlectionForm = ({ form }: BookingFormProps) => {
 							onChange={form.handleChange}
 						/>
 						<CheckboxRow
-							label="Cash on delivery"
+							label="Post paid"
 							value={form.values.postPaidSelected}
 							name="postPaidSelected"
 							onChange={form.handleChange}

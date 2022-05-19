@@ -42,9 +42,11 @@ export const BookingForm = () => {
 		<Box mt={5}>
 			<BookingSlectionForm form={bookingForm} />
 
-			<Box my={5}>
-				<CreditCardForm />
-			</Box>
+			{!bookingForm.values.postPaidSelected && (
+				<Box my={5}>
+					<CreditCardForm />
+				</Box>
+			)}
 
 			<Box mt={5} display="flex" justifyContent="flex-end">
 				<Button
