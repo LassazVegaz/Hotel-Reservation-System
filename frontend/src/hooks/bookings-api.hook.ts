@@ -5,15 +5,8 @@ import { reservationsApiHelper } from "../helpers/hotel-reservations-api.helper"
 import { hotelsApiHelper } from "../helpers/hotels-api.helper";
 import { BookingDateRange } from "../types/booking-date-range.type";
 import { Booking } from "../types/booking.type";
-import { Reservation } from "../types/hotel-reservation.type";
-import { Hotel } from "../types/hotel.type";
+import { AdvancedBookingData } from "../types/advanced-booking-data.type";
 import { useApi } from "./api.hook";
-
-type AdvancedBookingData = {
-	booking: Booking;
-	reservation: Reservation;
-	hotel: Hotel;
-};
 
 export const useBookingsApi = () => {
 	const api = useApi();
