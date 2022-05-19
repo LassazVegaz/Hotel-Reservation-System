@@ -9,9 +9,15 @@ import {
 	List,
 	Typography,
 } from "@mui/material";
+import { UserRole } from "../../enums/user-role.enum";
+import { useAppSelector } from "../../hooks/redux.hooks";
 import { Reservation } from "../../types/hotel-reservation.type";
 
 const ReservationItem = ({ reservation }: { reservation: Reservation }) => {
+	const userRole = useAppSelector((s) =>
+		s.auth ? s.auth.roleId : null
+	) as UserRole;
+
 	const secondaryText = (
 		<>
 			<Typography>
@@ -38,9 +44,11 @@ const ReservationItem = ({ reservation }: { reservation: Reservation }) => {
 				primary={reservation.description}
 				secondary={secondaryText}
 			/>
-			<ListItemSecondaryAction>
-				<Button variant="outlined">BOOK</Button>
-			</ListItemSecondaryAction>
+			{userRole === UserRole.Customer && (
+				<ListItemSecondaryAction>
+					<Button variant="outlined">BOOK</Button>
+				</ListItemSecondaryAction>
+			)}
 		</ListItemButton>
 	);
 };
