@@ -1,4 +1,4 @@
-import { bookingsApiHelper } from "../helpers/bookings.helper";
+import { bookingsApiHelper } from "../helpers/bookings-api.helper";
 import { Booking } from "../types/booking.type";
 import { useApi } from "./api.hook";
 
