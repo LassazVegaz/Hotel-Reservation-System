@@ -23,4 +23,14 @@ const getHotelsByAdmin = async (hotelAdminId: number): Promise<Hotel[]> => {
 	}
 };
 
-export const hotelsApiHelper = { createHotel, getHotelsByAdmin };
+const getAllHotels = async (): Promise<Hotel[]> => {
+	try {
+		const res = await appAxios.get<Hotel[]>(endpoints.hotels.common);
+		return res.data;
+	} catch (error) {
+		console.error(error);
+		throw error;
+	}
+};
+
+export const hotelsApiHelper = { createHotel, getHotelsByAdmin, getAllHotels };

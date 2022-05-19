@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { AddHotelDialog } from "../../components/AddHotelDialog/AddHotelDialog";
+import { UserRole } from "../../enums/user-role.enum";
 import { useHotelsApi } from "../../hooks/hotels-api.hook";
 import { useAppSelector } from "../../hooks/redux.hooks";
 import { Hotel } from "../../types/hotel.type";
@@ -29,20 +30,29 @@ const HotelsList = ({ hotels }: { hotels: Hotel[] }) => {
 };
 
 export const HotelsListPage = () => {
-	const { getHotelsByAdmin } = useHotelsApi();
+	const { getHotelsByAdmin, getAllHotels } = useHotelsApi();
 	const [hotels, setHotels] = useState([] as Hotel[]);
-	const hotelAdminId = useAppSelector((s) => (s.auth ? s.auth.id : 0));
+	const authData = useAppSelector((s) =>
+		s.auth ? s.auth : { id: 0, roleId: 0 }
+	);
 	const [openDialog, setOpenDialog] = useState(false);
 
 	const getHotels = async () => {
-		const hotels = await getHotelsByAdmin(hotelAdminId);
+		const hotels = await (authData.roleId === UserRole.HotelAdmin
+			? getHotelsByAdmin(authData.id)
+			: getAllHotels());
 		if (hotels) setHotels(hotels);
 	};
 
 	useEffect(() => {
 		getHotels();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [hotelAdminId]);
+	}, [authData]);
+
+	const title =
+		authData.roleId === UserRole.HotelAdmin
+			? "Your Hotels"
+			: "Choose a Convenient Hotel";
 
 	return (
 		<>
@@ -53,7 +63,7 @@ export const HotelsListPage = () => {
 				}}
 			>
 				<Typography variant="h4" textAlign="center">
-					Your Hotels
+					{title}
 				</Typography>
 
 				<HotelsList hotels={hotels} />
