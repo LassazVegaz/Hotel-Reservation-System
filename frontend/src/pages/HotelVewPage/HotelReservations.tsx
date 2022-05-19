@@ -7,7 +7,7 @@ import { useAppSelector } from "../../hooks/redux.hooks";
 import { LoggedInAuth } from "../../redux/slices/auth.slice";
 import { ReservationsList } from "./ReservationsList";
 
-export const HotelReservations = () => {
+export const HotelReservations = ({ hotelId }: { hotelId: number }) => {
 	const authData = useAppSelector((s) => s.auth as LoggedInAuth);
 	const [openDialog, setOpenDialog] = useState(false);
 
@@ -39,7 +39,8 @@ export const HotelReservations = () => {
 
 			<AddEditReservationDialog
 				open={openDialog}
-				onClose={() => setOpenDialog(false)}
+				hotelId={hotelId}
+				onClose={(created) => setOpenDialog(false)}
 			/>
 		</>
 	);

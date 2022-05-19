@@ -11,11 +11,13 @@ export const HotelViewPage = () => {
 	const [hotel, setHotel] = useState<Hotel | null>(null);
 	const { getHotelById } = useHotelsApi();
 
+	const hotelId = params.id ? parseInt(params.id) : undefined;
+
 	useEffect(() => {
 		let isSubscribed = true;
 
-		if (params.id) {
-			getHotelById(parseInt(params.id)).then(
+		if (hotelId) {
+			getHotelById(hotelId).then(
 				(hotel) => isSubscribed && hotel && setHotel(hotel)
 			);
 		}
@@ -25,7 +27,7 @@ export const HotelViewPage = () => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [params.id]);
 
-	return hotel ? (
+	return hotel && hotelId ? (
 		<Container
 			sx={{
 				my: 10,
@@ -33,7 +35,7 @@ export const HotelViewPage = () => {
 		>
 			<HotelDetailsCard hotel={hotel} />
 
-			<HotelReservations />
+			<HotelReservations hotelId={hotelId} />
 		</Container>
 	) : null;
 };
