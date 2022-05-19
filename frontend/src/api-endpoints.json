@@ -8,5 +8,8 @@
 	"hotels": {
 		"common": "/hotels",
 		"getHotelsByAdmin": "/hotels/hotelAdmin"
+	},
+	"reservations": {
+		"common": "hotels/{hotelId}/reservations"
 	}
 }
