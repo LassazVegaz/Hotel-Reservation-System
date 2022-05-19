@@ -23,6 +23,26 @@ export class ReservationsService {
     });
   }
 
+  async getReservationDates(customerId: number): Promise<
+    {
+      fromDate: Date;
+      toDate: Date;
+    }[]
+  > {
+    // select future from dates
+    const reservations = await this.prismaService.reservation.findMany({
+      where: {
+        customerId,
+      },
+      select: {
+        fromDate: true,
+        toDate: true,
+      },
+    });
+
+    return reservations;
+  }
+
   async getReservation(id: number): Promise<Reservation> {
     return this.prismaService.reservation.findUnique({
       where: {
