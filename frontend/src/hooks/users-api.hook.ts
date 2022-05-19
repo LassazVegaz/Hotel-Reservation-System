@@ -1,4 +1,5 @@
 import { AxiosError } from "axios";
+import { UserRole } from "../enums/user-role.enum";
 import { authHelper } from "../helpers/auth.helper";
 import { usersApiHelpers } from "../helpers/users-api.helpers";
 import { authActions } from "../redux/slices/auth.slice";
@@ -47,6 +48,11 @@ export const useUsersApi = () => {
 						email,
 						password
 					);
+					authHelper.setAuthData({
+						access_token: token,
+						id: 0,
+						roleId: UserRole.Customer,
+					});
 					const user = await usersApiHelpers.getLoggedInUser();
 					authHelper.setAuthData({
 						access_token: token,
