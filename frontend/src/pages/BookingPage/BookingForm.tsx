@@ -6,6 +6,10 @@ import { Booking } from "../../types/booking.type";
 import * as Yup from "yup";
 import moment from "moment";
 import { CreditCard } from "../../types/credit-card.type";
+import { useBookingsApi } from "../../hooks/bookings-api.hook";
+import { useAppSelector } from "../../hooks/redux.hooks";
+import { useNotifications } from "../../hooks/notifications.hook";
+import { useNavigate } from "react-router-dom";
 
 const transformDate = (_value: any, original: moment.MomentInput) =>
 	moment(original, "DD/MM/YYYY").toDate();
@@ -62,11 +66,18 @@ const cardValidation = Yup.object({
 		.min(1, "Invalid expiration year"),
 });
 
-export const BookingForm = () => {
+export const BookingForm = ({ reservationId }: { reservationId: number }) => {
+	const { isBookingAvailable, createBooking } = useBookingsApi();
+	const customerId = useAppSelector((s) => (s.auth ? s.auth.id : 0));
+	const { showError } = useNotifications();
+	const navigate = useNavigate();
+
 	const cardForm = useFormik({
 		initialValues: cardFormInitialValues,
 		validationSchema: cardValidation,
-		onSubmit: (values) => {},
+		onSubmit: (_) => {
+			book();
+		},
 	});
 
 	const bookingForm = useFormik({
@@ -75,9 +86,29 @@ export const BookingForm = () => {
 		onSubmit: (values) => {
 			if (!values.postPaidSelected) {
 				cardForm.submitForm();
+			} else {
+				book();
 			}
 		},
 	});
+
+	const book = async () => {
+		const fromDate = moment(bookingForm.values.fromDate, "DD/MM/YYYY");
+		const toDate = moment(bookingForm.values.toDate, "DD/MM/YYYY");
+		if (await isBookingAvailable(customerId, fromDate, toDate)) {
+			const res = await createBooking({
+				...bookingForm.values,
+				customerId,
+				reservationId,
+				id: 0,
+			});
+			if (res) navigate("/");
+		} else {
+			showError(
+				"Selected date range overlaps with an exisitng booked package"
+			);
+		}
+	};
 
 	return (
 		<Box mt={5}>

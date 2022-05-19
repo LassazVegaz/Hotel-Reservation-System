@@ -1,3 +1,5 @@
+import moment from "moment";
+import { Moment } from "moment";
 import { bookingsApiHelper } from "../helpers/bookings-api.helper";
 import { BookingDateRange } from "../types/booking-date-range.type";
 import { Booking } from "../types/booking.type";
@@ -16,20 +18,35 @@ export const useBookingsApi = () => {
 		return newBooking;
 	};
 
-	const getDates = async (
-		customerId: number
-	): Promise<BookingDateRange[] | null> => {
-		let dates: BookingDateRange[] | null = null;
+	const isBookingAvailable = async (
+		customerId: number,
+		fromDate: Moment,
+		toDate: Moment
+	): Promise<boolean> => {
+		let dates: BookingDateRange[] = [];
 
 		await api(async () => {
 			dates = await bookingsApiHelper.getBookedDates(customerId);
 		});
 
-		return dates;
+		const dateIsBooked = dates.some((date) => {
+			const _fromDate = moment(date.fromDate);
+			const _toDate = moment(date.toDate);
+			return (
+				(fromDate.isSameOrAfter(_toDate, "day") &&
+					fromDate.isSameOrBefore(_fromDate, "day")) ||
+				(toDate.isSameOrAfter(_fromDate, "day") &&
+					toDate.isSameOrBefore(_toDate, "day")) ||
+				(fromDate.isSameOrBefore(_fromDate, "day") &&
+					toDate.isSameOrAfter(_toDate, "day"))
+			);
+		});
+
+		return !dateIsBooked;
 	};
 
 	return {
 		createBooking,
-		getDates,
+		isBookingAvailable,
 	};
 };
