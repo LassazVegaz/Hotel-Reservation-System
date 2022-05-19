@@ -1,6 +1,9 @@
-import { Box, Card, CardContent, TextField } from "@mui/material";
+import { Box, Card, CardContent } from "@mui/material";
+import { FormikProps } from "formik";
+import { FormikMUITextField } from "../../components/FormikMUITextField/FormikMUITextField";
+import { CreditCard } from "../../types/credit-card.type";
 
-export const CreditCardForm = () => {
+export const CreditCardForm = ({ form }: { form: FormikProps<CreditCard> }) => {
 	return (
 		<Box component="form">
 			<Card>
@@ -11,8 +14,17 @@ export const CreditCardForm = () => {
 						rowGap: 4,
 					}}
 				>
-					<TextField label="Card owner's name" />
-					<TextField label="Card number" />
+					<FormikMUITextField
+						label="Card owner's name"
+						name="owner"
+						form={form}
+					/>
+					<FormikMUITextField
+						label="Card number"
+						name="number"
+						form={form}
+						type="number"
+					/>
 
 					<Box display="flex" justifyContent="space-between">
 						<Box
@@ -21,14 +33,25 @@ export const CreditCardForm = () => {
 							columnGap={2}
 							width={200}
 						>
-							<TextField label="MM" />
-							<TextField label="YY" />
+							<FormikMUITextField
+								label="MM"
+								name="expirationMonth"
+								form={form}
+								type="number"
+							/>
+							<FormikMUITextField
+								label="YYYY"
+								name="expirationYear"
+								form={form}
+								type="number"
+							/>
 						</Box>
-						<TextField
-							sx={{
-								width: 200,
-							}}
+
+						<FormikMUITextField
 							label="CCV"
+							name="cvv"
+							form={form}
+							type="number"
 						/>
 					</Box>
 				</CardContent>

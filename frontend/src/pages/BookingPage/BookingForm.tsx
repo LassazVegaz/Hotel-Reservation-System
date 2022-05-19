@@ -5,6 +5,7 @@ import { CreditCardForm } from "./CreditCardForm";
 import { Booking } from "../../types/booking.type";
 import * as Yup from "yup";
 import moment from "moment";
+import { CreditCard } from "../../types/credit-card.type";
 
 const transformDate = (_value: any, original: moment.MomentInput) =>
 	moment(original, "DD/MM/YYYY").toDate();
@@ -31,11 +32,51 @@ const bookingFormInitialValues: Omit<
 	taxiSerivceSelected: false,
 };
 
+const cardFormInitialValues: CreditCard = {
+	number: 0,
+	cvv: 0,
+	owner: "",
+	expirationMonth: 0,
+	expirationYear: 0,
+};
+
+const cardValidation = Yup.object({
+	number: Yup.number()
+		.required("Required")
+		.typeError("Invalid number")
+		.min(1, "Invalid number"),
+	cvv: Yup.number()
+		.required("Required")
+		.typeError("Invalid cvv")
+		.min(1, "Invalid cvv")
+		.max(999, "Invalid cvv"),
+	owner: Yup.string().required("Required"),
+	expirationMonth: Yup.number()
+		.required("Required")
+		.typeError("Invalid expiration month")
+		.min(1, "Invalid expiration month")
+		.max(12, "Invalid expiration month"),
+	expirationYear: Yup.number()
+		.required("Required")
+		.typeError("Invalid expiration year")
+		.min(1, "Invalid expiration year"),
+});
+
 export const BookingForm = () => {
+	const cardForm = useFormik({
+		initialValues: cardFormInitialValues,
+		validationSchema: cardValidation,
+		onSubmit: (values) => {},
+	});
+
 	const bookingForm = useFormik({
 		initialValues: bookingFormInitialValues,
 		validationSchema: bookingFormValidations,
-		onSubmit: (values) => {},
+		onSubmit: (values) => {
+			if (!values.postPaidSelected) {
+				cardForm.submitForm();
+			}
+		},
 	});
 
 	return (
@@ -44,7 +85,7 @@ export const BookingForm = () => {
 
 			{!bookingForm.values.postPaidSelected && (
 				<Box my={5}>
-					<CreditCardForm />
+					<CreditCardForm form={cardForm} />
 				</Box>
 			)}
 
