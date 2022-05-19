@@ -11,3 +11,19 @@ paths:
       responses:
         default:
           description: Default response
+    put:
+      responses:
+        default:
+          description: Default response
+    post:
+      responses:
+        default:
+          description: Default response
+    delete:
+      responses:
+        default:
+          description: Default response
+    patch:
+      responses:
+        default:
+          description: Default response
