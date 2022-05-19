@@ -6,6 +6,8 @@ import {
 	CardContent,
 	Typography,
 } from "@mui/material";
+import moment from "moment";
+import { AdvancedBookingData } from "../../types/advanced-booking-data.type";
 import { ValueLabelPair } from "../../types/value-label-pair.type";
 
 const DetailsRow = ({ label, value }: ValueLabelPair<string>) => {
@@ -23,24 +25,40 @@ const DetailsRow = ({ label, value }: ValueLabelPair<string>) => {
 	);
 };
 
-export const BookingListItem = () => {
+export const BookingListItem = ({
+	booking,
+}: {
+	booking: AdvancedBookingData;
+}) => {
+	const { booking: _booking, reservation, hotel } = booking;
+	const fromDate = moment(_booking.fromDate);
+	const toDate = moment(_booking.toDate);
+	const days = toDate.diff(fromDate, "days");
+	const price = reservation.price * days;
+
 	return (
 		<Card>
 			<CardContent>
-				<DetailsRow label="Hotel name" value="Nilaweli Hotel" />
-				<DetailsRow
-					label="Hotel address"
-					value="10/6, Kings Road, James"
-				/>
+				<DetailsRow label="Hotel name" value={hotel.name} />
+				<DetailsRow label="Hotel address" value={hotel.address} />
 				<DetailsRow
 					label="Package description"
-					value="My sweet package"
+					value={reservation.description}
 				/>
-				<DetailsRow label="From" value="10/10/2020" />
-				<DetailsRow label="To" value="12/10/2020" />
-				<DetailsRow label="Taxi service" value="Yes" />
-				<DetailsRow label="Pre-payemment" value="Yes" />
-				<DetailsRow label="Price" value="1500.00" />
+				<DetailsRow
+					label="From"
+					value={fromDate.format("DD/MM/YYYY")}
+				/>
+				<DetailsRow label="To" value={toDate.format("DD/MM/YYYY")} />
+				<DetailsRow
+					label="Taxi service"
+					value={_booking.taxiSerivceSelected ? "Yes" : "No"}
+				/>
+				<DetailsRow
+					label="Post-payemment"
+					value={_booking.postPaidSelected ? "Yes" : "No"}
+				/>
+				<DetailsRow label="Price" value={price.toFixed(2)} />
 			</CardContent>
 
 			<CardActions

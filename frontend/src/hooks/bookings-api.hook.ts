@@ -53,24 +53,33 @@ export const useBookingsApi = () => {
 	): Promise<AdvancedBookingData[]> => {
 		let bookings: AdvancedBookingData[] = [];
 
-		await api(async () => {
-			const _bookings = await bookingsApiHelper.getBookings(customerId);
-			for (let i = 0; i < _bookings.length; i++) {
-				const booking = _bookings[i];
-				const reservation = await reservationsApiHelper.getReservation(
-					booking.reservationId
+		await api(
+			async () => {
+				const _bookings = await bookingsApiHelper.getBookings(
+					customerId
 				);
-				const hotel = await hotelsApiHelper.getHotelById(
-					reservation.hotelId
-				);
+				for (let i = 0; i < _bookings.length; i++) {
+					const booking = _bookings[i];
+					const reservation =
+						await reservationsApiHelper.getReservation(
+							booking.reservationId
+						);
+					const hotel = await hotelsApiHelper.getHotelById(
+						reservation.hotelId
+					);
 
-				bookings.push({
-					booking,
-					reservation,
-					hotel,
-				});
+					bookings.push({
+						booking,
+						reservation,
+						hotel,
+					});
+				}
+			},
+			{
+				showErrorNotification: false,
+				showSuccessNotification: false,
 			}
-		});
+		);
 
 		return bookings;
 	};
