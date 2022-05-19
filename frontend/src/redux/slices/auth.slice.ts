@@ -1,7 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AuthData } from "../../helpers/auth.helper";
 
-type AuthSliceState = Omit<AuthData, "access_token"> | false;
+export type LoggedInAuth = Omit<AuthData, "access_token">;
+
+type AuthSliceState = LoggedInAuth | false;
 
 let initialState: AuthSliceState = false;
 
