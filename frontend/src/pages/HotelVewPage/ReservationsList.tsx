@@ -8,8 +8,9 @@ import {
 	Button,
 	List,
 } from "@mui/material";
+import { Reservation } from "../../types/hotel-reservation.type";
 
-const ReservationItem = () => {
+const ReservationItem = ({ reservation }: { reservation: Reservation }) => {
 	return (
 		<ListItemButton>
 			<ListItemAvatar>
@@ -17,7 +18,10 @@ const ReservationItem = () => {
 					<BedroomChildIcon />
 				</Avatar>
 			</ListItemAvatar>
-			<ListItemText primary="Reservation 1" secondary="500.00" />
+			<ListItemText
+				primary={reservation.description}
+				secondary={Number(reservation.price).toFixed(2)}
+			/>
 			<ListItemSecondaryAction>
 				<Button variant="outlined">BOOK</Button>
 			</ListItemSecondaryAction>
@@ -25,12 +29,16 @@ const ReservationItem = () => {
 	);
 };
 
-export const ReservationsList = () => {
+export const ReservationsList = ({
+	reservations,
+}: {
+	reservations: Reservation[];
+}) => {
 	return (
 		<List>
-			<ReservationItem />
-			<ReservationItem />
-			<ReservationItem />
+			{reservations.map((res) => (
+				<ReservationItem key={res.id} reservation={res} />
+			))}
 		</List>
 	);
 };

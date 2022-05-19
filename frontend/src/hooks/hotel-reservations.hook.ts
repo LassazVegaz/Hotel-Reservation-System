@@ -21,7 +21,28 @@ export const useReservationsApi = () => {
 		return newReservation;
 	};
 
+	const getReservations = async (
+		hotelId: number
+	): Promise<Reservation[] | null> => {
+		let reservations: Reservation[] | null = null;
+
+		await api(
+			async () => {
+				reservations = await reservationsApiHelper.getReservations(
+					hotelId
+				);
+			},
+			{
+				showErrorNotification: false,
+				showSuccessNotification: false,
+			}
+		);
+
+		return reservations;
+	};
+
 	return {
 		createReservation,
+		getReservations,
 	};
 };
