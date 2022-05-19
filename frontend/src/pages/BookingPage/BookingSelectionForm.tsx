@@ -8,35 +8,79 @@ import {
 	Typography,
 } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
+import { FormikProps } from "formik";
 import moment from "moment";
-import { useState } from "react";
+import { Booking } from "../../types/booking.type";
 import { ValueLabelPair } from "../../types/value-label-pair.type";
 import { BookingFormCalculations } from "./BookingFormCalculations";
 
-type BookingFormState = {
-	fromDate: moment.Moment | null;
-	toDate: moment.Moment | null;
+type BookingFormType = FormikProps<
+	Omit<Booking, "id" | "reservationId" | "customerId">
+>;
+
+export type BookingFormProps = {
+	form: BookingFormType;
 };
 
 const DateControl = styled(TextField)({
 	width: "100%",
 });
 
-const CheckboxRow = ({ label, value }: ValueLabelPair<boolean>) => {
+const CheckboxRow = ({
+	label,
+	value,
+	name,
+	onChange,
+}: ValueLabelPair<boolean> & {
+	name: string;
+	onChange: (e: React.ChangeEvent<any>) => void;
+}) => {
 	return (
 		<Box display="flex" alignItems="center">
 			<Typography width={300}>{label}</Typography>
-			<Checkbox checked={value} />
+			<Checkbox checked={value} name={name} onChange={onChange} />
 		</Box>
 	);
 };
 
-export const BookingSlectionForm = () => {
-	const [from, setFrom] = useState<BookingFormState>({
-		fromDate: moment(),
-		toDate: moment(),
-	});
+const BookingDatePicker = ({
+	form,
+	name,
+	label,
+}: {
+	form: FormikProps<any>;
+	name: string;
+	label: string;
+}) => {
+	return (
+		<DatePicker
+			inputFormat="DD/MM/YYYY"
+			label={label}
+			minDate={moment()}
+			value={moment(form.values[name], "DD/MM/YYYY")}
+			onChange={(date) =>
+				form.setFieldValue(name, date?.format("DD/MM/YYYY"))
+			}
+			renderInput={(props) => (
+				<DateControl
+					name={name}
+					{...props}
+					error={
+						Boolean(form.errors[name]) &&
+						Boolean(form.touched[name])
+					}
+					helperText={
+						Boolean(form.touched[name])
+							? (form.errors[name] as string)
+							: null
+					}
+				/>
+			)}
+		/>
+	);
+};
 
+export const BookingSlectionForm = ({ form }: BookingFormProps) => {
 	return (
 		<Box component="form">
 			<Card>
@@ -47,31 +91,31 @@ export const BookingSlectionForm = () => {
 						justifyContent="space-evenly"
 						columnGap={5}
 					>
-						<DatePicker
-							inputFormat="DD/MM/YYYY"
+						<BookingDatePicker
+							form={form}
+							name="fromDate"
 							label="From"
-							minDate={moment()}
-							value={from.fromDate}
-							onChange={(date) =>
-								setFrom({ ...from, fromDate: date })
-							}
-							renderInput={(props) => <DateControl {...props} />}
 						/>
-						<DatePicker
-							inputFormat="DD/MM/YYYY"
+						<BookingDatePicker
+							form={form}
+							name="toDate"
 							label="To"
-							minDate={moment()}
-							value={from.toDate}
-							onChange={(date) =>
-								setFrom({ ...from, toDate: date })
-							}
-							renderInput={(props) => <DateControl {...props} />}
 						/>
 					</Box>
 
 					<Box mb={5} display="flex" flexDirection="column">
-						<CheckboxRow label="Taxi service" value={true} />
-						<CheckboxRow label="Cash on delivery" value={true} />
+						<CheckboxRow
+							label="Taxi service"
+							value={form.values.taxiSerivceSelected}
+							name="taxiSerivceSelected"
+							onChange={form.handleChange}
+						/>
+						<CheckboxRow
+							label="Post paid"
+							value={form.values.postPaidSelected}
+							name="postPaidSelected"
+							onChange={form.handleChange}
+						/>
 					</Box>
 
 					<BookingFormCalculations />

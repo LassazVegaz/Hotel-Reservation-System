@@ -122,7 +122,11 @@ export const CreateAcountForm = () => {
 			>
 				Sign Up
 			</Button>
-			<Button variant="contained" onClick={() => navigate("/login")}>
+			<Button
+				color="secondary"
+				variant="contained"
+				onClick={() => navigate("/login")}
+			>
 				Sign In
 			</Button>
 		</Box>

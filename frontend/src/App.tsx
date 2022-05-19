@@ -14,6 +14,7 @@ import { HotelViewPage } from "./pages/HotelVewPage/HotelViewPage";
 import { LoginPage } from "./pages/LoginPage/LoginPage";
 import { MyBookingsPage } from "./pages/MyBookingsPage/MyBookingsPage";
 import { NotFoundPage } from "./pages/NotFoundPage/NotFoundPage";
+import { ProfilePage } from "./pages/ProfilePage/ProfilePage";
 
 function App() {
 	const isLoading = useAppSelector((s) => s.loader.isLoading);
@@ -44,7 +45,10 @@ function App() {
 						{authData.roleId === UserRole.Customer && (
 							<>
 								<Route path="/" element={<MyBookingsPage />} />
-								<Route path="/book" element={<BookingPage />} />
+								<Route
+									path="/book/:id"
+									element={<BookingPage />}
+								/>
 							</>
 						)}
 						{authData.roleId !== UserRole.Customer && (
@@ -55,6 +59,7 @@ function App() {
 						)}
 						<Route path="/hotels" element={<HotelsListPage />} />
 						<Route path="/hotels/:id" element={<HotelViewPage />} />
+						<Route path="/profile" element={<ProfilePage />} />
 					</>
 				)}
 

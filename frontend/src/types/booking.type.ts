@@ -1,9 +1,9 @@
 export type Booking = {
-	id: string;
+	id: number;
 	reservationId: number;
 	customerId: number;
-	fromDate: Date;
-	toDate: Date;
+	fromDate: string;
+	toDate: string;
 	postPaidSelected: boolean;
 	taxiSerivceSelected: boolean;
 };

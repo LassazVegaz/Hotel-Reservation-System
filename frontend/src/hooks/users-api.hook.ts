@@ -92,5 +92,39 @@ export const useUsersApi = () => {
 		return taken;
 	};
 
-	return { createUser, loginUser, refreshAuthtore, logoutUser, isEmailTaken };
+	const getUser = async (id: number): Promise<User | null> => {
+		let user: User | null = null;
+
+		await api(
+			async () => {
+				user = await usersApiHelpers.getUser(id);
+			},
+			{
+				showErrorNotification: false,
+				showSuccessNotification: false,
+			}
+		);
+
+		return user;
+	};
+
+	const updateUser = async (id: number, user: User): Promise<User | null> => {
+		let updatedUser: User | null = null;
+
+		await api(async () => {
+			updatedUser = await usersApiHelpers.updateUser(id, user);
+		});
+
+		return updatedUser;
+	};
+
+	return {
+		createUser,
+		loginUser,
+		refreshAuthtore,
+		logoutUser,
+		isEmailTaken,
+		getUser,
+		updateUser,
+	};
 };

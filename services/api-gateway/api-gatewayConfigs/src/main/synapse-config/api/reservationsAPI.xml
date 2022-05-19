@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <api context="/reservations" name="reservationsAPI" xmlns="http://ws.apache.org/ns/synapse">
-    <resource methods="GET">
+    <resource methods="DELETE POST PUT PATCH GET">
         <inSequence>
             <log>
                 <property name="message" value="accessing reservations API"/>

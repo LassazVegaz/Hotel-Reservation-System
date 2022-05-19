@@ -30,7 +30,19 @@ const getReservations = async (hotelId: number) => {
 	}
 };
 
+const getReservation = async (reservationId: number) => {
+	try {
+		const url = `${endpoints.reservations.common}/${reservationId}`;
+		const res = await appAxios.get<Reservation>(url);
+		return res.data;
+	} catch (error) {
+		console.error(error);
+		throw error;
+	}
+};
+
 export const reservationsApiHelper = {
 	createReservation,
 	getReservations,
+	getReservation,
 };

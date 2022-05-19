@@ -74,16 +74,18 @@ export const HotelsListPage = () => {
 
 				<HotelsList hotels={hotels} />
 
-				<Fab
-					sx={{
-						right: 0,
-						bottom: 0,
-						position: "absolute",
-					}}
-					onClick={() => setOpenDialog(true)}
-				>
-					<AddIcon />
-				</Fab>
+				{authData.roleId === UserRole.HotelAdmin && (
+					<Fab
+						sx={{
+							right: 0,
+							bottom: 0,
+							position: "absolute",
+						}}
+						onClick={() => setOpenDialog(true)}
+					>
+						<AddIcon />
+					</Fab>
+				)}
 			</Container>
 
 			<AddHotelDialog
