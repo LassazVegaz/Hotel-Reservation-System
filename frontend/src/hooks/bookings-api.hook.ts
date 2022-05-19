@@ -1,4 +1,5 @@
 import { bookingsApiHelper } from "../helpers/bookings-api.helper";
+import { BookingDateRange } from "../types/booking-date-range.type";
 import { Booking } from "../types/booking.type";
 import { useApi } from "./api.hook";
 
@@ -15,7 +16,20 @@ export const useBookingsApi = () => {
 		return newBooking;
 	};
 
+	const getDates = async (
+		customerId: number
+	): Promise<BookingDateRange[] | null> => {
+		let dates: BookingDateRange[] | null = null;
+
+		await api(async () => {
+			dates = await bookingsApiHelper.getBookedDates(customerId);
+		});
+
+		return dates;
+	};
+
 	return {
 		createBooking,
+		getDates,
 	};
 };

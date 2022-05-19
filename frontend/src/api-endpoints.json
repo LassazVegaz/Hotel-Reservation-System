@@ -13,8 +13,10 @@
 		"common": "hotels/{hotelId}/reservations"
 	},
 	"bookings": {
-		"common": "reservations/{hotelId}/reservations",
-		"customers": "reservations/customers/{customerId}",
-		"customersDates": "reservations/customers/{customerId}"
+		"common": "reservations",
+		"customers": {
+			"common": "reservations/customers",
+			"dates": "reservations/customers/{customerId}/dates"
+		}
 	}
 }
