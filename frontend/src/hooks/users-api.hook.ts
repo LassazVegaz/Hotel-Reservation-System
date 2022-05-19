@@ -92,5 +92,22 @@ export const useUsersApi = () => {
 		return taken;
 	};
 
-	return { createUser, loginUser, refreshAuthtore, logoutUser, isEmailTaken };
+	const getUser = async (id: number): Promise<User | null> => {
+		let user: User | null = null;
+
+		await api(async () => {
+			user = await usersApiHelpers.getUser(id);
+		});
+
+		return user;
+	};
+
+	return {
+		createUser,
+		loginUser,
+		refreshAuthtore,
+		logoutUser,
+		isEmailTaken,
+		getUser,
+	};
 };

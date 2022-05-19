@@ -51,9 +51,20 @@ const isEmailTaken = async (email: string) => {
 	}
 };
 
+const getUser = async (id: number) => {
+	try {
+		const res = await appAxios.get<User>(`${endpoints.users.common}/${id}`);
+		return res.data;
+	} catch (error) {
+		console.error(error);
+		throw error;
+	}
+};
+
 export const usersApiHelpers = {
 	createUser,
 	loginUser,
 	getLoggedInUser,
 	isEmailTaken,
+	getUser,
 };
