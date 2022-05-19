@@ -49,8 +49,20 @@ const getBookings = async (customerId: number) => {
 	}
 };
 
+const cancelBooking = async (bookingId: number) => {
+	try {
+		const url = `${endpoints.bookings.common}/${bookingId}`;
+		const res = await appAxios.delete(url);
+		return res.data;
+	} catch (error) {
+		console.error(error);
+		throw error;
+	}
+};
+
 export const bookingsApiHelper = {
 	createBooking,
 	getBookedDates,
 	getBookings,
+	cancelBooking,
 };

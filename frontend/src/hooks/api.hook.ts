@@ -25,8 +25,8 @@ export const useApi = () => {
 			await cb();
 			if (options.showSuccessNotification) showSuccess("Successfull");
 		} catch (error) {
+			if (options.showErrorNotification) showError("Failed");
 			if (!options.handleError) throw error;
-			else if (options.showErrorNotification) showError("Failed");
 		} finally {
 			dispatch(loaderActions.stopLoading());
 		}

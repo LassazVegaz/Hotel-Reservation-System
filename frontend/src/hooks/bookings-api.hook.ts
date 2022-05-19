@@ -84,9 +84,27 @@ export const useBookingsApi = () => {
 		return bookings;
 	};
 
+	const cancelBooking = async (bookingId: number): Promise<boolean> => {
+		try {
+			await api(
+				async () => {
+					await bookingsApiHelper.cancelBooking(bookingId);
+				},
+				{
+					handleError: false,
+				}
+			);
+		} catch (error) {
+			return false;
+		}
+
+		return true;
+	};
+
 	return {
 		createBooking,
 		isBookingAvailable,
 		getBookings,
+		cancelBooking,
 	};
 };
