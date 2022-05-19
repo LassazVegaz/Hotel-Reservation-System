@@ -9,6 +9,7 @@ import {
 	List,
 	Typography,
 } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import { UserRole } from "../../enums/user-role.enum";
 import { useAppSelector } from "../../hooks/redux.hooks";
 import { Reservation } from "../../types/hotel-reservation.type";
@@ -17,6 +18,7 @@ const ReservationItem = ({ reservation }: { reservation: Reservation }) => {
 	const userRole = useAppSelector((s) =>
 		s.auth ? s.auth.roleId : null
 	) as UserRole;
+	const navigate = useNavigate();
 
 	const secondaryText = (
 		<>
@@ -46,7 +48,12 @@ const ReservationItem = ({ reservation }: { reservation: Reservation }) => {
 			/>
 			{userRole === UserRole.Customer && (
 				<ListItemSecondaryAction>
-					<Button variant="outlined">BOOK</Button>
+					<Button
+						variant="outlined"
+						onClick={() => navigate(`/book/${reservation.id}`)}
+					>
+						BOOK
+					</Button>
 				</ListItemSecondaryAction>
 			)}
 		</ListItemButton>

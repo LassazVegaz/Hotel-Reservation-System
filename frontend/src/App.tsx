@@ -44,7 +44,10 @@ function App() {
 						{authData.roleId === UserRole.Customer && (
 							<>
 								<Route path="/" element={<MyBookingsPage />} />
-								<Route path="/book" element={<BookingPage />} />
+								<Route
+									path="/book/:id"
+									element={<BookingPage />}
+								/>
 							</>
 						)}
 						{authData.roleId !== UserRole.Customer && (
