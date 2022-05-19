@@ -54,7 +54,7 @@ function App() {
 							/>
 						)}
 						<Route path="/hotels" element={<HotelsListPage />} />
-						<Route path="/hotel" element={<HotelViewPage />} />
+						<Route path="/hotels/:id" element={<HotelViewPage />} />
 					</>
 				)}
 

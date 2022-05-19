@@ -8,6 +8,7 @@ import {
 	Typography,
 } from "@mui/material";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { AddHotelDialog } from "../../components/AddHotelDialog/AddHotelDialog";
 import { UserRole } from "../../enums/user-role.enum";
 import { useHotelsApi } from "../../hooks/hotels-api.hook";
@@ -15,10 +16,15 @@ import { useAppSelector } from "../../hooks/redux.hooks";
 import { Hotel } from "../../types/hotel.type";
 
 const HotelsList = ({ hotels }: { hotels: Hotel[] }) => {
+	const navigate = useNavigate();
+
 	return (
 		<List>
 			{hotels.map((hotel) => (
-				<ListItemButton key={hotel.id}>
+				<ListItemButton
+					key={hotel.id}
+					onClick={() => navigate(`/hotels/${hotel.id}`)}
+				>
 					<ListItemText
 						primary={hotel.name}
 						secondary={hotel.address}

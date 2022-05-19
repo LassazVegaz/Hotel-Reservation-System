@@ -1,4 +1,5 @@
 import { Box, Card, CardContent, Typography } from "@mui/material";
+import { Hotel } from "../../types/hotel.type";
 
 const HotelViewRow = ({ label, value }: { label: string; value: string }) => {
 	return (
@@ -11,12 +12,12 @@ const HotelViewRow = ({ label, value }: { label: string; value: string }) => {
 	);
 };
 
-export const HotelDetailsCard = () => {
+export const HotelDetailsCard = ({ hotel }: { hotel: Hotel }) => {
 	return (
 		<Card>
 			<CardContent>
-				<HotelViewRow label="Name" value="Mount Lavenia" />
-				<HotelViewRow label="Address" value="Kins Road, Lake Place" />
+				<HotelViewRow label="Name" value={hotel.name} />
+				<HotelViewRow label="Address" value={hotel.address} />
 			</CardContent>
 		</Card>
 	);
