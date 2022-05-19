@@ -3,4 +3,6 @@ export type Reservation = {
 	description: string;
 	price: number;
 	hotelId: number;
+	allowPostPaid: boolean;
+	taxiServiceAvailable: boolean;
 };

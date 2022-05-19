@@ -5,6 +5,8 @@ import {
 	DialogContent,
 	DialogActions,
 	Button,
+	Checkbox,
+	FormControlLabel,
 } from "@mui/material";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -27,6 +29,8 @@ const validationSchema = Yup.object({
 const initialValues = {
 	price: 0,
 	description: "",
+	allowPostPaid: false,
+	taxiServiceAvailable: false,
 };
 
 export const AddEditReservationDialog = ({
@@ -79,6 +83,20 @@ export const AddEditReservationDialog = ({
 						label="Description"
 						form={form}
 						name="description"
+					/>
+					<FormControlLabel
+						control={<Checkbox />}
+						value={form.values.allowPostPaid}
+						onChange={form.handleChange}
+						name="allowPostPaid"
+						label="Allow Post Paid"
+					/>
+					<FormControlLabel
+						control={<Checkbox />}
+						value={form.values.taxiServiceAvailable}
+						name="taxiServiceAvailable"
+						onChange={form.handleChange}
+						label="Taxi Service Available"
 					/>
 				</DialogContent>
 
