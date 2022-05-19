@@ -15,5 +15,17 @@ export const useHotelsApi = () => {
 		return newHotel;
 	};
 
-	return { createHotel };
+	const getHotelsByAdmin = async (
+		hotelAdminId: number
+	): Promise<Hotel[] | null> => {
+		let hotels: Hotel[] | null = null;
+
+		await api(async () => {
+			hotels = await hotelsApiHelper.getHotelsByAdmin(hotelAdminId);
+		});
+
+		return hotels;
+	};
+
+	return { createHotel, getHotelsByAdmin };
 };

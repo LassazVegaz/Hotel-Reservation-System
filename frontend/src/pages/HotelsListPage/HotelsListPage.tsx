@@ -7,21 +7,34 @@ import {
 	ListItemText,
 	Typography,
 } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AddHotelDialog } from "../../components/AddHotelDialog/AddHotelDialog";
+import { useHotelsApi } from "../../hooks/hotels-api.hook";
+import { useAppSelector } from "../../hooks/redux.hooks";
+import { Hotel } from "../../types/hotel.type";
 
 const HotelsList = () => {
+	const { getHotelsByAdmin } = useHotelsApi();
+	const [hotels, setHotels] = useState([] as Hotel[]);
+	const hotelAdminId = useAppSelector((s) => (s.auth ? s.auth.id : 0));
+
+	useEffect(() => {
+		getHotelsByAdmin(hotelAdminId).then((res) => {
+			if (res) setHotels(res);
+		});
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [hotelAdminId]);
+
 	return (
 		<List>
-			<ListItemButton>
-				<ListItemText primary="Hotel 1" secondary="Address 1" />
-			</ListItemButton>
-			<ListItemButton>
-				<ListItemText primary="Hotel 1" secondary="Address 1" />
-			</ListItemButton>
-			<ListItemButton>
-				<ListItemText primary="Hotel 1" secondary="Address 1" />
-			</ListItemButton>
+			{hotels.map((hotel) => (
+				<ListItemButton key={hotel.id}>
+					<ListItemText
+						primary={hotel.name}
+						secondary={hotel.address}
+					/>
+				</ListItemButton>
+			))}
 		</List>
 	);
 };
