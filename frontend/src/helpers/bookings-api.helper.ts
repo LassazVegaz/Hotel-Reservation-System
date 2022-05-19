@@ -38,7 +38,19 @@ const getBookedDates = async (customerId: number) => {
 	}
 };
 
+const getBookings = async (customerId: number) => {
+	try {
+		const url = `${endpoints.bookings.customers.common}/${customerId}`;
+		const res = await appAxios.get<Booking[]>(url);
+		return res.data;
+	} catch (error) {
+		console.error(error);
+		throw error;
+	}
+};
+
 export const bookingsApiHelper = {
 	createBooking,
 	getBookedDates,
+	getBookings,
 };

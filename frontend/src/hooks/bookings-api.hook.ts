@@ -1,9 +1,19 @@
 import moment from "moment";
 import { Moment } from "moment";
 import { bookingsApiHelper } from "../helpers/bookings-api.helper";
+import { reservationsApiHelper } from "../helpers/hotel-reservations-api.helper";
+import { hotelsApiHelper } from "../helpers/hotels-api.helper";
 import { BookingDateRange } from "../types/booking-date-range.type";
 import { Booking } from "../types/booking.type";
+import { Reservation } from "../types/hotel-reservation.type";
+import { Hotel } from "../types/hotel.type";
 import { useApi } from "./api.hook";
+
+type AdvancedBookingData = {
+	booking: Booking;
+	reservation: Reservation;
+	hotel: Hotel;
+};
 
 export const useBookingsApi = () => {
 	const api = useApi();
@@ -45,8 +55,36 @@ export const useBookingsApi = () => {
 		return !dateIsBooked;
 	};
 
+	const getBookings = async (
+		customerId: number
+	): Promise<AdvancedBookingData[]> => {
+		let bookings: AdvancedBookingData[] = [];
+
+		await api(async () => {
+			const _bookings = await bookingsApiHelper.getBookings(customerId);
+			for (let i = 0; i < _bookings.length; i++) {
+				const booking = _bookings[i];
+				const reservation = await reservationsApiHelper.getReservation(
+					booking.reservationId
+				);
+				const hotel = await hotelsApiHelper.getHotelById(
+					reservation.hotelId
+				);
+
+				bookings.push({
+					booking,
+					reservation,
+					hotel,
+				});
+			}
+		});
+
+		return bookings;
+	};
+
 	return {
 		createBooking,
 		isBookingAvailable,
+		getBookings,
 	};
 };
