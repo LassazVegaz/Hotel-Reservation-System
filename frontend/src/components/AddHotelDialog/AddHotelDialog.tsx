@@ -14,7 +14,7 @@ import { FormikMUITextField } from "../FormikMUITextField/FormikMUITextField";
 
 type AddHotelDialogProps = {
 	open: boolean;
-	onClose: () => void;
+	onClose: (created: boolean) => void;
 };
 
 const initialValues = {
@@ -42,14 +42,14 @@ export const AddHotelDialog = ({ open, onClose }: AddHotelDialogProps) => {
 				location_lng: 0,
 			});
 
-			if (res) closeForm();
+			if (res) closeForm(true);
 		},
 		validationSchema,
 	});
 
-	const closeForm = () => {
+	const closeForm = (created: boolean) => {
 		form.resetForm();
-		onClose();
+		onClose(created);
 	};
 
 	return (
@@ -77,7 +77,7 @@ export const AddHotelDialog = ({ open, onClose }: AddHotelDialogProps) => {
 					<Button
 						variant="outlined"
 						color="primary"
-						onClick={closeForm}
+						onClick={() => closeForm(false)}
 					>
 						Cancel
 					</Button>

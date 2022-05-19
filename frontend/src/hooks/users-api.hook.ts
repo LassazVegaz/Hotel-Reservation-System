@@ -41,15 +41,23 @@ export const useUsersApi = () => {
 		password: string
 	): Promise<boolean> => {
 		try {
-			await api(async () => {
-				const token = await usersApiHelpers.loginUser(email, password);
-				const user = await usersApiHelpers.getLoggedInUser();
-				authHelper.setAuthData({
-					access_token: token,
-					...user,
-				});
-				refreshAuthtore();
-			}, true);
+			await api(
+				async () => {
+					const token = await usersApiHelpers.loginUser(
+						email,
+						password
+					);
+					const user = await usersApiHelpers.getLoggedInUser();
+					authHelper.setAuthData({
+						access_token: token,
+						...user,
+					});
+					refreshAuthtore();
+				},
+				{
+					handleError: false,
+				}
+			);
 
 			return true;
 		} catch (error) {

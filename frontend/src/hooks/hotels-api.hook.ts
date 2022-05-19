@@ -20,9 +20,15 @@ export const useHotelsApi = () => {
 	): Promise<Hotel[] | null> => {
 		let hotels: Hotel[] | null = null;
 
-		await api(async () => {
-			hotels = await hotelsApiHelper.getHotelsByAdmin(hotelAdminId);
-		});
+		await api(
+			async () => {
+				hotels = await hotelsApiHelper.getHotelsByAdmin(hotelAdminId);
+			},
+			{
+				showSuccessNotification: false,
+				showErrorNotification: false,
+			}
+		);
 
 		return hotels;
 	};

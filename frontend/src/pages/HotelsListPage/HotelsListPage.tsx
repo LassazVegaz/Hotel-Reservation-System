@@ -13,18 +13,7 @@ import { useHotelsApi } from "../../hooks/hotels-api.hook";
 import { useAppSelector } from "../../hooks/redux.hooks";
 import { Hotel } from "../../types/hotel.type";
 
-const HotelsList = () => {
-	const { getHotelsByAdmin } = useHotelsApi();
-	const [hotels, setHotels] = useState([] as Hotel[]);
-	const hotelAdminId = useAppSelector((s) => (s.auth ? s.auth.id : 0));
-
-	useEffect(() => {
-		getHotelsByAdmin(hotelAdminId).then((res) => {
-			if (res) setHotels(res);
-		});
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [hotelAdminId]);
-
+const HotelsList = ({ hotels }: { hotels: Hotel[] }) => {
 	return (
 		<List>
 			{hotels.map((hotel) => (
@@ -40,7 +29,20 @@ const HotelsList = () => {
 };
 
 export const HotelsListPage = () => {
+	const { getHotelsByAdmin } = useHotelsApi();
+	const [hotels, setHotels] = useState([] as Hotel[]);
+	const hotelAdminId = useAppSelector((s) => (s.auth ? s.auth.id : 0));
 	const [openDialog, setOpenDialog] = useState(false);
+
+	const getHotels = async () => {
+		const hotels = await getHotelsByAdmin(hotelAdminId);
+		if (hotels) setHotels(hotels);
+	};
+
+	useEffect(() => {
+		getHotels();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [hotelAdminId]);
 
 	return (
 		<>
@@ -54,7 +56,7 @@ export const HotelsListPage = () => {
 					Your Hotels
 				</Typography>
 
-				<HotelsList />
+				<HotelsList hotels={hotels} />
 
 				<Fab
 					sx={{
@@ -70,7 +72,10 @@ export const HotelsListPage = () => {
 
 			<AddHotelDialog
 				open={openDialog}
-				onClose={() => setOpenDialog(false)}
+				onClose={(created) => {
+					if (created) getHotels();
+					setOpenDialog(false);
+				}}
 			/>
 		</>
 	);
