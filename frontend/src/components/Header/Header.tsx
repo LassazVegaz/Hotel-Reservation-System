@@ -80,6 +80,9 @@ const HeaderComponent = ({ links }: { links: NavLink[] }) => {
 								open={Boolean(anchorEl)}
 								onClose={handleClose}
 							>
+								<MenuItem onClick={() => navigate("/profile")}>
+									View Profile
+								</MenuItem>
 								<MenuItem onClick={handleLogout}>
 									Logout
 								</MenuItem>
