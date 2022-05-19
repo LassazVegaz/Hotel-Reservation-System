@@ -27,8 +27,10 @@ const DetailsRow = ({ label, value }: ValueLabelPair<string>) => {
 
 export const BookingListItem = ({
 	booking,
+	onCancel,
 }: {
 	booking: AdvancedBookingData;
+	onCancel: (id: number) => void;
 }) => {
 	const { booking: _booking, reservation, hotel } = booking;
 	const fromDate = moment(_booking.fromDate);
@@ -66,7 +68,11 @@ export const BookingListItem = ({
 					justifyContent: "flex-end",
 				}}
 			>
-				<Button variant="outlined" color="secondary">
+				<Button
+					variant="outlined"
+					color="secondary"
+					onClick={() => onCancel(_booking.id)}
+				>
 					Cancel
 				</Button>
 			</CardActions>

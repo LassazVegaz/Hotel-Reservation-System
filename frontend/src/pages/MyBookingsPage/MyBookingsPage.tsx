@@ -8,10 +8,15 @@ import { BookingListItem } from "./BookingListItem";
 export const MyBookingsPage = () => {
 	const [bookings, setBookings] = useState([] as AdvancedBookingData[]);
 	const customerId = useAppSelector((s) => (s.auth ? s.auth.id : 0));
-	const { getBookings } = useBookingsApi();
+	const { getBookings, cancelBooking } = useBookingsApi();
+
+	const loadBookings = async () => {
+		const bookings = await getBookings(customerId);
+		setBookings(bookings);
+	};
 
 	useEffect(() => {
-		getBookings(customerId).then(setBookings);
+		loadBookings();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [customerId]);
 
@@ -24,6 +29,9 @@ export const MyBookingsPage = () => {
 					<BookingListItem
 						key={booking.booking.id}
 						booking={booking}
+						onCancel={(id) => {
+							cancelBooking(id).then(loadBookings);
+						}}
 					/>
 				))}
 			</Box>
