@@ -130,7 +130,12 @@ export const BookingSlectionForm = ({
 						</Box>
 					)}
 
-					<BookingFormCalculations />
+					<BookingFormCalculations
+						reservation={reservation}
+						fromDate={form.values.fromDate}
+						toDate={form.values.toDate}
+						isTaxiSelected={form.values.taxiSerivceSelected}
+					/>
 				</CardContent>
 			</Card>
 		</Box>
