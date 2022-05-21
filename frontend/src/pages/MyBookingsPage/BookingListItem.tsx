@@ -35,8 +35,10 @@ export const BookingListItem = ({
 	const { booking: _booking, reservation, hotel } = booking;
 	const fromDate = moment(_booking.fromDate);
 	const toDate = moment(_booking.toDate);
-	const days = toDate.diff(fromDate, "days");
-	const price = reservation.price * days;
+	const days = toDate.diff(fromDate, "days") + 1;
+	let price = reservation.price * days;
+
+	if (_booking.taxiSerivceSelected) price += 400;
 
 	return (
 		<Card>
