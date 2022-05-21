@@ -10,6 +10,7 @@ import { useBookingsApi } from "../../hooks/bookings-api.hook";
 import { useAppSelector } from "../../hooks/redux.hooks";
 import { useNotifications } from "../../hooks/notifications.hook";
 import { useNavigate } from "react-router-dom";
+import { Reservation } from "../../types/hotel-reservation.type";
 
 const transformDate = (_value: any, original: moment.MomentInput) =>
 	moment(original, "DD/MM/YYYY").toDate();
@@ -66,7 +67,7 @@ const cardValidation = Yup.object({
 		.min(1, "Invalid expiration year"),
 });
 
-export const BookingForm = ({ reservationId }: { reservationId: number }) => {
+export const BookingForm = ({ reservation }: { reservation: Reservation }) => {
 	const { isBookingAvailable, createBooking } = useBookingsApi();
 	const customerId = useAppSelector((s) => (s.auth ? s.auth.id : 0));
 	const { showError } = useNotifications();
@@ -99,7 +100,7 @@ export const BookingForm = ({ reservationId }: { reservationId: number }) => {
 			const res = await createBooking({
 				...bookingForm.values,
 				customerId,
-				reservationId,
+				reservationId: reservation.id,
 				id: 0,
 			});
 			if (res) navigate("/");
@@ -112,7 +113,7 @@ export const BookingForm = ({ reservationId }: { reservationId: number }) => {
 
 	return (
 		<Box mt={5}>
-			<BookingSlectionForm form={bookingForm} />
+			<BookingSlectionForm form={bookingForm} reservation={reservation} />
 
 			{!bookingForm.values.postPaidSelected && (
 				<Box my={5}>

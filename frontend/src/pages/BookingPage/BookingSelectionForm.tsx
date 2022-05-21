@@ -11,6 +11,7 @@ import { DatePicker } from "@mui/x-date-pickers";
 import { FormikProps } from "formik";
 import moment from "moment";
 import { Booking } from "../../types/booking.type";
+import { Reservation } from "../../types/hotel-reservation.type";
 import { ValueLabelPair } from "../../types/value-label-pair.type";
 import { BookingFormCalculations } from "./BookingFormCalculations";
 
@@ -20,6 +21,7 @@ type BookingFormType = FormikProps<
 
 export type BookingFormProps = {
 	form: BookingFormType;
+	reservation: Reservation;
 };
 
 const DateControl = styled(TextField)({
@@ -80,7 +82,10 @@ const BookingDatePicker = ({
 	);
 };
 
-export const BookingSlectionForm = ({ form }: BookingFormProps) => {
+export const BookingSlectionForm = ({
+	form,
+	reservation,
+}: BookingFormProps) => {
 	return (
 		<Box component="form">
 			<Card>
@@ -103,20 +108,27 @@ export const BookingSlectionForm = ({ form }: BookingFormProps) => {
 						/>
 					</Box>
 
-					<Box mb={5} display="flex" flexDirection="column">
-						<CheckboxRow
-							label="Taxi service"
-							value={form.values.taxiSerivceSelected}
-							name="taxiSerivceSelected"
-							onChange={form.handleChange}
-						/>
-						<CheckboxRow
-							label="Post paid"
-							value={form.values.postPaidSelected}
-							name="postPaidSelected"
-							onChange={form.handleChange}
-						/>
-					</Box>
+					{(reservation.allowPostPaid ||
+						reservation.taxiServiceAvailable) && (
+						<Box mb={5} display="flex" flexDirection="column">
+							{reservation.taxiServiceAvailable && (
+								<CheckboxRow
+									label="Taxi service"
+									value={form.values.taxiSerivceSelected}
+									name="taxiSerivceSelected"
+									onChange={form.handleChange}
+								/>
+							)}
+							{reservation.allowPostPaid && (
+								<CheckboxRow
+									label="Post paid"
+									value={form.values.postPaidSelected}
+									name="postPaidSelected"
+									onChange={form.handleChange}
+								/>
+							)}
+						</Box>
+					)}
 
 					<BookingFormCalculations />
 				</CardContent>

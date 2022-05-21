@@ -38,7 +38,7 @@ export const BookingPage = () => {
 
 			<HotelDetailsCard hotel={hotel} />
 
-			<BookingForm reservationId={reservation.id} />
+			<BookingForm reservation={reservation} />
 		</Container>
 	) : null;
 };
