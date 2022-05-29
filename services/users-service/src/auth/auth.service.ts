@@ -13,8 +13,11 @@ export class AuthService {
   async validateUser(email: string, password: string): Promise<UserDTO> {
     const user = await this.usersService.getUserByEmail(email);
     if (user) {
-      const passwordDb = await this.usersService.getPassword(user.id);
-      if (passwordDb === password) {
+      const match = await this.usersService.isPasswordCorrect(
+        user.id,
+        password,
+      );
+      if (match) {
         return user;
       }
     }
